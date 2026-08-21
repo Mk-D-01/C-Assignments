@@ -1,7 +1,0 @@
-Steps to Solve 2nd Question : 
-
-                whenever u get openinig bracker ( { or [  -> PUSH in the stack
-                whenever u get closing bracket  ) } or ]  -> Check if Top == -1 
-                                                If the closing Bracket == pair of it's openinig bracket on the Top -> POP the Element
-
-                                                
