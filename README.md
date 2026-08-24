@@ -116,10 +116,21 @@ git commit -m "Add solution for Week 14 Graph Analysis"
 git push origin main
 ```
 
+## ⚠️ Disclaimer & 🐛 Bug Reporting
+
+### Academic Disclaimer
+The code solutions, terminal outputs, and generated `.docx` reports provided in this project are created as reference templates for learning purposes. The produced results **might not be 100% correct**, complete, or tailored to every instructor's specific grading criteria. Users are strongly advised to review and verify all code prior to official submission.
+
+### Bug Reporting & Feedback
+If you spot an error in any algorithm, code solution, output log, or document generator, please report it:
+- **Email:** Send your report directly to [adarkcalleddrake123@gmail.com](mailto:adarkcalleddrake123@gmail.com).
+- **Web Interface:** Click the **🐛 Report Bug** button in `index.html` to compose and transmit a pre-formatted bug report directly.
+
 ---
 
 ## 📄 License & Attribution
 
 Maintained for academic, learning, and reference purposes by **Yuvraj Singh** (B.Tech CSE - AI & ML).
+
 
 
