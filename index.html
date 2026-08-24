@@ -351,6 +351,98 @@
             border: 1px solid rgba(244, 63, 94, 0.4);
             color: #f87171;
         }
+
+        /* Responsive Mobile Styles */
+        @media (max-width: 900px) {
+            body {
+                overflow-y: auto;
+            }
+            .app-container {
+                flex-direction: column;
+                overflow: visible;
+            }
+            aside {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            main {
+                padding: 1.25rem;
+                overflow-y: visible;
+            }
+        }
+
+        @media (max-width: 640px) {
+            header {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            header .brand {
+                justify-content: center;
+            }
+            .header-actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.5rem;
+            }
+            .header-actions .btn {
+                padding: 0.65rem 0.5rem;
+                font-size: 0.8rem;
+                justify-content: center;
+            }
+            .student-banner {
+                grid-template-columns: 1fr 1fr;
+                padding: 1rem;
+                gap: 0.85rem;
+            }
+            .q-card {
+                padding: 1rem;
+            }
+            .q-title {
+                font-size: 1rem;
+            }
+            .code-box, .dmp-terminal-box {
+                font-size: 0.78rem;
+                padding: 0.85rem;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .modal-card {
+                max-width: 95%;
+                margin: 0 0.5rem;
+            }
+            .modal-header {
+                padding: 1rem;
+            }
+            .modal-body {
+                padding: 1rem;
+            }
+            .modal-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            .modal-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .site-footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .header-actions {
+                grid-template-columns: 1fr;
+            }
+            .student-banner {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -440,6 +532,75 @@
                 </button>
             </footer>
         </main>
+    </div>
+
+    <!-- Bug Report Modal Backdrop -->
+    <div class="modal-backdrop" id="bugModalBackdrop" style="display: none;">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <span class="modal-icon">🐛</span>
+                    <div>
+                        <h3>Report a Bug / Issue</h3>
+                        <p>Direct email report to <strong>adarkcalleddrake123@gmail.com</strong></p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" id="closeBugModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="bugReportForm" onsubmit="event.preventDefault();">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bugReporterName">Your Name</label>
+                            <input type="text" id="bugReporterName" class="form-control" placeholder="e.g. Yuvraj Singh">
+                        </div>
+                        <div class="form-group">
+                            <label for="bugCategory">Issue Type</label>
+                            <select id="bugCategory" class="form-control">
+                                <option value="Code Logic / Syntax Error">Code Logic / Syntax Error</option>
+                                <option value="Incorrect Terminal Output">Incorrect Terminal Output</option>
+                                <option value="Docx Generation Error">Docx Generation Error</option>
+                                <option value="UI / Layout Bug">UI / Layout Bug</option>
+                                <option value="Other / General Feedback">Other / General Feedback</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bugWeekSelect">Affected Week / Topic</label>
+                        <select id="bugWeekSelect" class="form-control">
+                            <option value="General / Platform Wide">General / Platform Wide</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bugTitle">Bug Subject / Summary <span style="color: #f43f5e;">*</span></label>
+                        <input type="text" id="bugTitle" class="form-control" placeholder="e.g. Wrong distance logic in Week 1 Question 2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bugDescription">Detailed Description & Steps to Reproduce <span style="color: #f43f5e;">*</span></label>
+                        <textarea id="bugDescription" class="form-control" rows="4" placeholder="Describe what went wrong and what the expected result should be..." required></textarea>
+                    </div>
+                    
+                    <div class="mail-target-box">
+                        <span>📩 Recipient Email:</span>
+                        <strong>adarkcalleddrake123@gmail.com</strong>
+                    </div>
+
+                    <div id="bugFormAlert" class="bug-alert" style="display: none;"></div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="copyBugReportBtn">
+                            📋 Copy Details
+                        </button>
+                        <button type="button" class="btn btn-gmail" id="openGmailWebBtn">
+                            ✉️ Gmail Web
+                        </button>
+                        <button type="button" class="btn btn-rose" id="sendMailtoBtn">
+                            🚀 Send Email
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -957,11 +1118,11 @@ ${q.code}</div>
         });
 
         // Bug Report Modal Logic & Event Handlers
-        const bugModalBackdrop = document.getElementById("bugModalBackdrop");
-        const bugWeekSelect = document.getElementById("bugWeekSelect");
-
         function openBugModal() {
-            if (bugWeekSelect.options.length <= 1) {
+            const bugModalBackdrop = document.getElementById("bugModalBackdrop");
+            const bugWeekSelect = document.getElementById("bugWeekSelect");
+
+            if (bugWeekSelect && bugWeekSelect.options.length <= 1) {
                 Object.keys(labData).forEach(wKey => {
                     const opt = document.createElement("option");
                     opt.value = wKey;
@@ -970,26 +1131,37 @@ ${q.code}</div>
                 });
             }
 
-            document.getElementById("bugReporterName").value = document.getElementById("inputName").value || "Student";
-            if (selectedWeek) {
+            const reporterInput = document.getElementById("bugReporterName");
+            const nameInput = document.getElementById("inputName");
+            if (reporterInput && nameInput) {
+                reporterInput.value = nameInput.value || "Student";
+            }
+            if (selectedWeek && bugWeekSelect) {
                 bugWeekSelect.value = selectedWeek;
             }
-            document.getElementById("bugFormAlert").style.display = "none";
-            bugModalBackdrop.style.display = "flex";
-            setTimeout(() => bugModalBackdrop.classList.add("active"), 10);
+            const alertBox = document.getElementById("bugFormAlert");
+            if (alertBox) alertBox.style.display = "none";
+
+            if (bugModalBackdrop) {
+                bugModalBackdrop.style.display = "flex";
+                setTimeout(() => bugModalBackdrop.classList.add("active"), 10);
+            }
         }
 
         function closeBugModal() {
-            bugModalBackdrop.classList.remove("active");
-            setTimeout(() => { bugModalBackdrop.style.display = "none"; }, 250);
+            const bugModalBackdrop = document.getElementById("bugModalBackdrop");
+            if (bugModalBackdrop) {
+                bugModalBackdrop.classList.remove("active");
+                setTimeout(() => { bugModalBackdrop.style.display = "none"; }, 250);
+            }
         }
 
         function getBugReportPayload() {
-            const name = document.getElementById("bugReporterName").value.trim() || "Anonymous Student";
-            const category = document.getElementById("bugCategory").value;
-            const week = document.getElementById("bugWeekSelect").value;
-            const title = document.getElementById("bugTitle").value.trim();
-            const desc = document.getElementById("bugDescription").value.trim();
+            const name = (document.getElementById("bugReporterName")?.value || "").trim() || "Anonymous Student";
+            const category = document.getElementById("bugCategory")?.value || "General";
+            const week = document.getElementById("bugWeekSelect")?.value || "General";
+            const title = (document.getElementById("bugTitle")?.value || "").trim();
+            const desc = (document.getElementById("bugDescription")?.value || "").trim();
 
             if (!title || !desc) {
                 return null;
@@ -1014,142 +1186,106 @@ Sent via DSA Lab File Platform`;
             return { subject, body, fullText: `Subject: ${subject}\n\n${body}` };
         }
 
-        document.getElementById("reportBugHeaderBtn").addEventListener("click", openBugModal);
-        document.getElementById("disclaimerReportBtn").addEventListener("click", openBugModal);
-        document.getElementById("closeBugModalBtn").addEventListener("click", closeBugModal);
+        function initBugModal() {
+            const headerBtn = document.getElementById("reportBugHeaderBtn");
+            const disclaimerBtn = document.getElementById("disclaimerReportBtn");
+            const closeBtn = document.getElementById("closeBugModalBtn");
+            const sendMailBtn = document.getElementById("sendMailtoBtn");
+            const gmailWebBtn = document.getElementById("openGmailWebBtn");
+            const copyBtn = document.getElementById("copyBugReportBtn");
+            const backdrop = document.getElementById("bugModalBackdrop");
 
-        bugModalBackdrop.addEventListener("click", (e) => {
-            if (e.target === bugModalBackdrop) closeBugModal();
-        });
+            if (headerBtn) headerBtn.addEventListener("click", openBugModal);
+            if (disclaimerBtn) disclaimerBtn.addEventListener("click", openBugModal);
+            if (closeBtn) closeBtn.addEventListener("click", closeBugModal);
 
-        document.getElementById("sendMailtoBtn").addEventListener("click", () => {
-            const alertBox = document.getElementById("bugFormAlert");
-            const payload = getBugReportPayload();
-            if (!payload) {
-                alertBox.className = "bug-alert bug-alert-error";
-                alertBox.innerText = "⚠️ Please enter both a Bug Subject and Description before sending.";
-                alertBox.style.display = "block";
-                return;
+            if (backdrop) {
+                backdrop.addEventListener("click", (e) => {
+                    if (e.target === backdrop) closeBugModal();
+                });
             }
 
-            const mailtoUrl = `mailto:adarkcalleddrake123@gmail.com?subject=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
-            window.location.href = mailtoUrl;
+            if (sendMailBtn) {
+                sendMailBtn.addEventListener("click", () => {
+                    const alertBox = document.getElementById("bugFormAlert");
+                    const payload = getBugReportPayload();
+                    if (!payload) {
+                        if (alertBox) {
+                            alertBox.className = "bug-alert bug-alert-error";
+                            alertBox.innerText = "⚠️ Please enter both a Bug Subject and Description before sending.";
+                            alertBox.style.display = "block";
+                        }
+                        return;
+                    }
 
-            alertBox.className = "bug-alert bug-alert-success";
-            alertBox.innerHTML = `✅ Mail client opened for <strong>adarkcalleddrake123@gmail.com</strong>! If your app didn't open, use 'Gmail Web' or 'Copy Details'.`;
-            alertBox.style.display = "block";
-        });
+                    const mailtoUrl = `mailto:adarkcalleddrake123@gmail.com?subject=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
+                    window.location.href = mailtoUrl;
 
-        document.getElementById("openGmailWebBtn").addEventListener("click", () => {
-            const alertBox = document.getElementById("bugFormAlert");
-            const payload = getBugReportPayload();
-            if (!payload) {
-                alertBox.className = "bug-alert bug-alert-error";
-                alertBox.innerText = "⚠️ Please enter both a Bug Subject and Description before opening Gmail.";
-                alertBox.style.display = "block";
-                return;
+                    if (alertBox) {
+                        alertBox.className = "bug-alert bug-alert-success";
+                        alertBox.innerHTML = `✅ Mail client opened for <strong>adarkcalleddrake123@gmail.com</strong>! If your app didn't open, use 'Gmail Web' or 'Copy Details'.`;
+                        alertBox.style.display = "block";
+                    }
+                });
             }
 
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=adarkcalleddrake123@gmail.com&su=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
-            window.open(gmailUrl, "_blank");
+            if (gmailWebBtn) {
+                gmailWebBtn.addEventListener("click", () => {
+                    const alertBox = document.getElementById("bugFormAlert");
+                    const payload = getBugReportPayload();
+                    if (!payload) {
+                        if (alertBox) {
+                            alertBox.className = "bug-alert bug-alert-error";
+                            alertBox.innerText = "⚠️ Please enter both a Bug Subject and Description before opening Gmail.";
+                            alertBox.style.display = "block";
+                        }
+                        return;
+                    }
 
-            alertBox.className = "bug-alert bug-alert-success";
-            alertBox.innerHTML = `✅ Gmail Web compose window launched for <strong>adarkcalleddrake123@gmail.com</strong>!`;
-            alertBox.style.display = "block";
-        });
+                    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=adarkcalleddrake123@gmail.com&su=${encodeURIComponent(payload.subject)}&body=${encodeURIComponent(payload.body)}`;
+                    window.open(gmailUrl, "_blank");
 
-        document.getElementById("copyBugReportBtn").addEventListener("click", () => {
-            const alertBox = document.getElementById("bugFormAlert");
-            const payload = getBugReportPayload();
-            if (!payload) {
-                alertBox.className = "bug-alert bug-alert-error";
-                alertBox.innerText = "⚠️ Please enter both a Bug Subject and Description to copy.";
-                alertBox.style.display = "block";
-                return;
+                    if (alertBox) {
+                        alertBox.className = "bug-alert bug-alert-success";
+                        alertBox.innerHTML = `✅ Gmail Web compose window launched for <strong>adarkcalleddrake123@gmail.com</strong>!`;
+                        alertBox.style.display = "block";
+                    }
+                });
             }
 
-            navigator.clipboard.writeText(payload.fullText).then(() => {
-                alertBox.className = "bug-alert bug-alert-success";
-                alertBox.innerHTML = `📋 Bug report copied to clipboard! Send to <strong>adarkcalleddrake123@gmail.com</strong>.`;
-                alertBox.style.display = "block";
-            }).catch(() => {
-                alertBox.className = "bug-alert bug-alert-error";
-                alertBox.innerText = "Failed to copy automatically. Please copy text manually.";
-                alertBox.style.display = "block";
-            });
-        });
+            if (copyBtn) {
+                copyBtn.addEventListener("click", () => {
+                    const alertBox = document.getElementById("bugFormAlert");
+                    const payload = getBugReportPayload();
+                    if (!payload) {
+                        if (alertBox) {
+                            alertBox.className = "bug-alert bug-alert-error";
+                            alertBox.innerText = "⚠️ Please enter both a Bug Subject and Description to copy.";
+                            alertBox.style.display = "block";
+                        }
+                        return;
+                    }
 
+                    navigator.clipboard.writeText(payload.fullText).then(() => {
+                        if (alertBox) {
+                            alertBox.className = "bug-alert bug-alert-success";
+                            alertBox.innerHTML = `📋 Bug report copied to clipboard! Send to <strong>adarkcalleddrake123@gmail.com</strong>.`;
+                            alertBox.style.display = "block";
+                        }
+                    }).catch(() => {
+                        if (alertBox) {
+                            alertBox.className = "bug-alert bug-alert-error";
+                            alertBox.innerText = "Failed to copy automatically. Please copy text manually.";
+                            alertBox.style.display = "block";
+                        }
+                    });
+                });
+            }
+        }
+
+        initBugModal();
         renderWeekList();
         renderQuestions();
     </script>
-
-    <!-- Bug Report Modal Backdrop -->
-    <div class="modal-backdrop" id="bugModalBackdrop" style="display: none;">
-        <div class="modal-card">
-            <div class="modal-header">
-                <div class="modal-title-group">
-                    <span class="modal-icon">🐛</span>
-                    <div>
-                        <h3>Report a Bug / Issue</h3>
-                        <p>Direct email report to <strong>adarkcalleddrake123@gmail.com</strong></p>
-                    </div>
-                </div>
-                <button class="modal-close-btn" id="closeBugModalBtn">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="bugReportForm" onsubmit="event.preventDefault();">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="bugReporterName">Your Name</label>
-                            <input type="text" id="bugReporterName" class="form-control" placeholder="e.g. Yuvraj Singh">
-                        </div>
-                        <div class="form-group">
-                            <label for="bugCategory">Issue Type</label>
-                            <select id="bugCategory" class="form-control">
-                                <option value="Code Logic / Syntax Error">Code Logic / Syntax Error</option>
-                                <option value="Incorrect Terminal Output">Incorrect Terminal Output</option>
-                                <option value="Docx Generation Error">Docx Generation Error</option>
-                                <option value="UI / Layout Bug">UI / Layout Bug</option>
-                                <option value="Other / General Feedback">Other / General Feedback</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="bugWeekSelect">Affected Week / Topic</label>
-                        <select id="bugWeekSelect" class="form-control">
-                            <option value="General / Platform Wide">General / Platform Wide</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="bugTitle">Bug Subject / Summary <span style="color: #f43f5e;">*</span></label>
-                        <input type="text" id="bugTitle" class="form-control" placeholder="e.g. Wrong distance logic in Week 1 Question 2" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="bugDescription">Detailed Description & Steps to Reproduce <span style="color: #f43f5e;">*</span></label>
-                        <textarea id="bugDescription" class="form-control" rows="4" placeholder="Describe what went wrong and what the expected result should be..." required></textarea>
-                    </div>
-                    
-                    <div class="mail-target-box">
-                        <span>📩 Recipient Email:</span>
-                        <strong>adarkcalleddrake123@gmail.com</strong>
-                    </div>
-
-                    <div id="bugFormAlert" class="bug-alert" style="display: none;"></div>
-
-                    <div class="modal-actions">
-                        <button type="button" class="btn btn-secondary" id="copyBugReportBtn">
-                            📋 Copy Details
-                        </button>
-                        <button type="button" class="btn btn-gmail" id="openGmailWebBtn">
-                            ✉️ Gmail Web
-                        </button>
-                        <button type="button" class="btn btn-rose" id="sendMailtoBtn">
-                            🚀 Send Email
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
