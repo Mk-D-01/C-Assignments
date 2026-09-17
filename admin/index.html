@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Lab Admin</title>
+    <style>
+        :root { --bg: #07111f; --panel: #102238; --border: #29445f; --text: #f4f7fb; --muted: #9db0c4; --accent: #43d19e; --danger: #ff7184; }
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; padding: 2rem; display: grid; place-items: center; background: radial-gradient(circle at top right, #17304c, var(--bg) 60%); color: var(--text); font-family: Georgia, serif; }
+        main { width: min(100%, 720px); }
+        .panel { padding: 2rem; border: 1px solid var(--border); border-radius: 12px; background: rgba(16, 34, 56, 0.94); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35); }
+        h1 { margin-top: 0; font-size: 2rem; }
+        p { color: var(--muted); line-height: 1.5; }
+        label { display: block; margin: 1.5rem 0 0.4rem; color: var(--muted); }
+        input, button { width: 100%; padding: 0.8rem 1rem; border-radius: 6px; font: inherit; }
+        input { border: 1px solid var(--border); background: #091827; color: var(--text); }
+        button { margin-top: 1rem; border: 0; background: var(--accent); color: #062719; font-weight: bold; cursor: pointer; }
+        .error { min-height: 1.4rem; color: var(--danger); }
+        .stats { display: none; }
+        .stat { padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px; background: rgba(7, 17, 31, 0.65); }
+        .number { display: block; margin-top: 0.5rem; color: var(--accent); font-size: 3rem; font-weight: bold; }
+        table { width: 100%; margin-top: 1.5rem; border-collapse: collapse; }
+        th, td { padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--border); text-align: left; }
+        th { color: var(--muted); font-size: 0.9rem; }
+        .back { display: inline-block; margin-top: 1.5rem; color: var(--accent); }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="panel" id="loginPanel">
+            <h1>Admin access</h1>
+            <p>Enter the administrator password to view DOCX generation activity.</p>
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password">
+            <button id="loginButton" type="button">Unlock dashboard</button>
+            <p class="error" id="loginError" aria-live="polite"></p>
+        </section>
+
+        <section class="panel stats" id="statsPanel">
+            <h1>DOCX activity</h1>
+            <p>This dashboard shows DOCX generations recorded by the deployed Vercel application.</p>
+            <div class="stat">Documents created<span class="number" id="downloadCount">0</span></div>
+            <div class="stat">Users created a document<span class="number" id="userCount">0</span></div>
+            <table>
+                <thead><tr><th>User</th><th>Created</th></tr></thead>
+                <tbody id="userRows"></tbody>
+            </table>
+            <a class="back" href="../">Back to lab platform</a>
+        </section>
+    </main>
+
+    <script>
+        async function showDashboard(password) {
+            const response = await fetch("../api/stats", {
+                headers: { "X-Admin-Password": password }
+            });
+            if (!response.ok) throw new Error("Unauthorized");
+
+            const stats = await response.json();
+            const users = stats.users || [];
+            const uniqueUsers = new Set(users.map(user => (user.name || "Anonymous").trim().toLowerCase()));
+            document.getElementById("downloadCount").textContent = stats.count || 0;
+            document.getElementById("userCount").textContent = uniqueUsers.size;
+
+            const rows = document.getElementById("userRows");
+            rows.replaceChildren();
+            users.slice().reverse().forEach(user => {
+                const row = document.createElement("tr");
+                const nameCell = document.createElement("td");
+                const dateCell = document.createElement("td");
+                nameCell.textContent = user.name || "Anonymous";
+                dateCell.textContent = new Date(user.createdAt).toLocaleString();
+                row.append(nameCell, dateCell);
+                rows.appendChild(row);
+            });
+            if (!users.length) {
+                const row = document.createElement("tr");
+                const cell = document.createElement("td");
+                cell.colSpan = 2;
+                cell.textContent = "No documents created in this browser yet.";
+                row.appendChild(cell);
+                rows.appendChild(row);
+            }
+            document.getElementById("loginPanel").style.display = "none";
+            document.getElementById("statsPanel").style.display = "block";
+        }
+
+        document.getElementById("loginButton").addEventListener("click", async () => {
+            const password = document.getElementById("password").value;
+            try {
+                await showDashboard(password);
+            } catch {
+                document.getElementById("loginError").textContent = "Incorrect password.";
+            }
+        });
+
+        document.getElementById("password").addEventListener("keydown", event => {
+            if (event.key === "Enter") document.getElementById("loginButton").click();
+        });
+    </script>
+</body>
+</html>
