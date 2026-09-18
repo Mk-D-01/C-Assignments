@@ -39,25 +39,84 @@ function replaceSourceCode(block, week) {
   return block;
 }
 
-function humanizeFunctionName(name) {
-  const words = name
-    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
-    .replace(/_/g, ' ')
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .map(word => {
-      const normalized = word.toLowerCase();
-      if (['cll', 'dll', 'bst'].includes(normalized)) {
-        return normalized.toUpperCase();
-      }
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    });
+const manualTitles = {
+  Week1: {
+    'question1.c': 'Left Rotation of Array',
+    'question2.c': 'Minimum Distance Between Two Elements',
+    'question3.c': 'Find Element Occurring Odd Number of Times'
+  },
+  Week2: {
+    'question1.c': 'Search an Element in a Sorted Matrix',
+    'question2.c': 'Find Row with Maximum Number of 1s',
+    'question3.c': 'Rotate Matrix in Clockwise Direction'
+  },
+  Week3: {
+    'question1.c': 'Stack Operations Using Array',
+    'question2.c': 'Check for Balanced Parentheses',
+    'question3.c': 'Longest Valid Parentheses Substring'
+  },
+  Week4: {
+    'question1.c': 'Reverse String Using Stack',
+    'question2.c': 'Implement Two Stacks in One Array',
+    'question3.c': 'Evaluation of Postfix Expression'
+  },
+  Week5: {
+    'question1.c': 'Queue Operations Using Array',
+    'question2.c': 'Reverse a Queue',
+    'question3.c': 'Deque Operations'
+  },
+  Week6: {
+    'question1.c': 'Implement Stack Using One Queue',
+    'question2.c': 'Implement Queue Using Two Stacks',
+    'question3.c': 'Circular Queue Operations'
+  },
+  Week7: {
+    'question1.c': 'Linked List Operations',
+    'question2.c': 'Queue Operations Using Linked List',
+    'question3.c': 'Stack Operations Using Linked List'
+  },
+  Week8: {
+    'question1.c': 'Doubly Linked List Operations',
+    'question2.c': 'Reverse a Doubly Linked List',
+    'question3.c': 'Remove Duplicates from Doubly Linked List'
+  },
+  Week9: {
+    'question1.c': 'Circular Linked List Operations',
+    'question2.c': 'Concatenate Two Circular Linked Lists',
+    'question3.c': 'Split a Circular Linked List'
+  },
+  Week10: {
+    'question1.c': 'Split Linked List into Odd and Even Nodes',
+    'question2.c': 'Find Nth Element from the End',
+    'question3.c': 'Reverse a Linked List in Single Pass'
+  },
+  Week11: {
+    'question1.c': 'Tree Height and Size',
+    'question2.c': 'Tree Traversal Techniques',
+    'question3.c': 'Infix to Postfix Conversion'
+  },
+  Week12: {
+    'question1.c': 'Binary Search Tree Operations',
+    'question2.c': 'Construct a Balanced BST',
+    'question3.c': 'Find Level with Maximum Number of Nodes'
+  },
+  Week13: {
+    'question1.c': 'Priority Queue Using Max Heap',
+    'question2.c': 'Check if an Array Represents a Heap',
+    'question3.c': 'Find Kth Largest Element Using Heap'
+  },
+  Week14: {
+    'question1.c': 'Memory Representation Analysis for Graphs',
+    'question2.c': 'Friendship Analysis Using Adjacency Matrix'
+  }
+};
 
-  return words.join(' ');
-}
+function inferQuestionTitle(code, fileName, week) {
+  const manual = manualTitles[week];
+  if (manual && manual[fileName]) {
+    return manual[fileName];
+  }
 
-function inferQuestionTitle(code, fileName) {
   const cleaned = stripStudentHeader(code)
     .replace(/\/\/.*$/gm, '')
     .replace(/\/\*[\s\S]*?\*\//g, '');
@@ -74,7 +133,15 @@ function inferQuestionTitle(code, fileName) {
   }
 
   if (matches.length > 0) {
-    return humanizeFunctionName(matches[0]);
+    const title = matches[0]
+      .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+      .replace(/_/g, ' ')
+      .trim();
+
+    return title
+      .split(/\s+/)
+      .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+      .join(' ');
   }
 
   const qNum = fileName.replace(/question(\d+)\.c/i, '$1');
@@ -99,7 +166,7 @@ function generateLabData() {
     const questions = questionFiles.map(file => {
       const fullPath = path.join(weekDir, file);
       const code = fs.readFileSync(fullPath, 'utf8');
-      const title = inferQuestionTitle(code, file);
+      const title = inferQuestionTitle(code, file, week);
 
       return {
         name: file,
@@ -119,12 +186,23 @@ function generateLabData() {
 }
 
 function buildDataBlob() {
+  const outputsJsonPath = path.join(workspace, 'all_41_outputs.json');
+  const outputsData = fs.existsSync(outputsJsonPath) ? JSON.parse(fs.readFileSync(outputsJsonPath, 'utf8')) : [];
+  const outputsMap = {};
+  outputsData.forEach(item => {
+    if (!outputsMap[item.Week]) outputsMap[item.Week] = {};
+    const lines = item.Content.split('\n');
+    outputsMap[item.Week][item.File] = lines.slice(2).join('\n').trim();
+  });
+
   const labData = generateLabData();
   const weeksText = Object.entries(labData)
     .map(([week, data]) => {
       const questionsText = data.questions
         .map((q, index) => {
-          const outputTemplate = `outputTemplate: (dir) => "PS E:\\Codes\\C\\C Assignments\\\\" + dir + "\\\\${week}> gcc ${q.name} -o a\\nPS E:\\Codes\\C\\C Assignments\\\\" + dir + "\\\\${week}> ./a\\nSample Run\\nQuestion ${index + 1}"`;
+          const rawOut = (outputsMap[week] && outputsMap[week][q.name]) || '';
+          const escOut = rawOut.replace(/\\/g, '\\\\').replace(/`/g, '\\`').replace(/\r\n/g, '\\n').replace(/\n/g, '\\n');
+          const outputTemplate = `outputTemplate: (dir) => "PS E:\\\\Codes\\\\C\\\\C Assignments\\\\" + dir + "\\\\${week}> gcc ${q.name} -o a\\nPS E:\\\\Codes\\\\C\\\\C Assignments\\\\" + dir + "\\\\${week}> ./a\\n${escOut}"`;
           return `\n                    {\n                        name: "${q.name}",\n                        title: "${q.title}",\n                        code: ${q.code},\n                        ${outputTemplate}\n                    }`;
         })
         .join(',');

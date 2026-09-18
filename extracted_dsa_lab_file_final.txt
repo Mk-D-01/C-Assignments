@@ -1,0 +1,4242 @@
+﻿DATA STRUCTURES LAB FILE
+DMP SHEET TEMPLATE FORMAT
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+"Given an array of integers, write an algorithm and a program to left rotate the array by specific number of elements."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+void rotateLeft(int arr[], int n, int k) {
+    k = k % n;
+    int temp[k];
+    for (int i = 0; i < k; i++) {
+        temp[i] = arr[i];
+    }
+    for (int i = k; i < n; i++) {
+        arr[i - k] = arr[i];
+    }
+    for (int i = 0; i < k; i++) {
+        arr[n - k + i] = temp[i];
+    }
+}
+
+int main() {
+    int t;
+    if (scanf("%d", &t) != 1) return 0;
+    while (t--) {
+        int n;
+        if (scanf("%d", &n) != 1) break;
+        int *arr = (int *)malloc(n * sizeof(int));
+        for (int i = 0; i < n; i++) {
+            scanf("%d", &arr[i]);
+        }
+        int k;
+        scanf("%d", &k);
+
+        rotateLeft(arr, n, k);
+
+        for (int i = 0; i < n; i++) {
+            printf("%d%c", arr[i], (i == n - 1) ? '\n' : ' ');
+        }
+        free(arr);
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week1> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week1> ./a
+3
+5
+2 4 -3 2 3
+3
+2 3 2 4 -3
+10
+1 6 3 2 9 1 4 2 3 6
+4
+9 1 4 2 3 6 1 6 3 2
+15
+-2 8 7 1 2 6 8 9 0 2 -6 2 9 7 1
+6
+8 9 0 2 -6 2 9 7 1 -2 8 7 1 2 6
+"Given an unsorted array of integers and two numbers a and b. Design an algorithm and write a program to find minimum distance between a and b in this array. Minimum distance between any two numbers a and b present in array is the minimum difference between their indices."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+int minDistance(int arr[], int n, int a, int b) {
+    int last_a = -1, last_b = -1;
+    int min_dist = INT_MAX;
+
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == a) {
+            last_a = i;
+            if (last_b != -1) {
+                int dist = abs(last_a - last_b);
+                if (dist < min_dist) min_dist = dist;
+            }
+        }
+        if (arr[i] == b) {
+            last_b = i;
+            if (last_a != -1) {
+                int dist = abs(last_a - last_b);
+                if (dist < min_dist) min_dist = dist;
+            }
+        }
+    }
+    return (min_dist == INT_MAX) ? -1 : min_dist;
+}
+
+int main() {
+    int t;
+    if (scanf("%d", &t) != 1) return 0;
+    while (t--) {
+        int n;
+        if (scanf("%d", &n) != 1) break;
+        int *arr = (int *)malloc(n * sizeof(int));
+        for (int i = 0; i < n; i++) {
+            scanf("%d", &arr[i]);
+        }
+        int a, b;
+        scanf("%d %d", &a, &b);
+
+        int ans = minDistance(arr, n, a, b);
+        printf("%d\n", ans);
+        free(arr);
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week1> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week1> ./a
+3
+5
+2 4 -3 2 3
+4 2
+1
+10
+1 6 3 2 9 1 4 3 6 2
+3 2
+1
+15
+-2 8 7 1 2 6 8 9 0 2 -6 12 9 7 1
+7 2
+2
+"Given an array of nonnegative integers, where all numbers occur even number of times except one number which occurs odd number of times. Write an algorithm and a program to find this number. (Time complexity = O(n))"
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+void findOddOccurrence(int arr[], int n) {
+    int res = 0;
+    for (int i = 0; i < n; i++) {
+        res ^= arr[i];
+    }
+    // Check if res occurs odd number of times
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == res) count++;
+    }
+    if (count % 2 != 0) {
+        printf("%d\n", res);
+    } else {
+        printf("No such element present\n");
+    }
+}
+
+int main() {
+    int t;
+    if (scanf("%d", &t) != 1) return 0;
+    while (t--) {
+        int n;
+        if (scanf("%d", &n) != 1) break;
+        int *arr = (int *)malloc(n * sizeof(int));
+        for (int i = 0; i < n; i++) {
+            scanf("%d", &arr[i]);
+        }
+        findOddOccurrence(arr, n);
+        free(arr);
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week1> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week1> ./a
+3
+5
+2 4 3 2 3
+4
+11
+1 6 3 2 4 1 4 2 3 6 6
+6
+15
+2 8 7 1 2 6 8 9 0 2 6 2 9 7 1
+0
+"Given a matrix of size n X n, where every row and every column is sorted in increasing order. Write an algorithm and a program to find whether the given key element is present in the matrix or not. (Linear time complexity)"
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+void searchMatrix(int **matrix, int n, int key) {
+    int i = 0, j = n - 1;
+    while (i < n && j >= 0) {
+        if (matrix[i][j] == key) {
+            printf("Present\n");
+            return;
+        }
+        if (matrix[i][j] > key) {
+            j--;
+        } else {
+            i++;
+        }
+    }
+    printf("Not Present\n");
+}
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    int **matrix = (int **)malloc(n * sizeof(int *));
+    for (int i = 0; i < n; i++) {
+        matrix[i] = (int *)malloc(n * sizeof(int));
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+    int key;
+    scanf("%d", &key);
+
+    searchMatrix(matrix, n, key);
+
+    for (int i = 0; i < n; i++) free(matrix[i]);
+    free(matrix);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week2> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week2> ./a
+4
+10 20 30 40
+15 25 34 41
+27 29 35 45
+32 33 38 49
+33
+Present
+"Given a boolean matrix (contains only 0 and 1) of size m X n where each row is sorted, write an algorithm and a program to find which row has maximum number of 1's. (Linear time complexity)"
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+void maxOnesRow(int **matrix, int m, int n) {
+    int max_row_idx = -1;
+    int j = n - 1; // start from top right
+
+    for (int i = 0; i < m; i++) {
+        while (j >= 0 && matrix[i][j] == 1) {
+            j--;
+            max_row_idx = i;
+        }
+    }
+
+    if (max_row_idx == -1) {
+        printf("Not Present\n");
+    } else {
+        printf("row - %d\n", max_row_idx + 1);
+    }
+}
+
+int main() {
+    int m, n;
+    if (scanf("%d %d", &m, &n) != 2) return 0;
+    int **matrix = (int **)malloc(m * sizeof(int *));
+    for (int i = 0; i < m; i++) {
+        matrix[i] = (int *)malloc(n * sizeof(int));
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+
+    maxOnesRow(matrix, m, n);
+
+    for (int i = 0; i < m; i++) free(matrix[i]);
+    free(matrix);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week2> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week2> ./a
+4 3
+0 1 1
+0 0 1
+1 1 1
+0 0 0
+row - 3
+"Given a matrix of size n X n containing positive integers, write an algorithm and a program to rotate the elements of matrix in clockwise direction."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+void rotateMatrixClockwise(int **mat, int n) {
+    int top = 0, bottom = n - 1;
+    int left = 0, right = n - 1;
+
+    while (top < bottom && left < right) {
+        int prev = mat[top + 1][left];
+
+        // Move elements of top row
+        for (int i = left; i <= right; i++) {
+            int curr = mat[top][i];
+            mat[top][i] = prev;
+            prev = curr;
+        }
+        top++;
+
+        // Move elements of right column
+        for (int i = top; i <= bottom; i++) {
+            int curr = mat[i][right];
+            mat[i][right] = prev;
+            prev = curr;
+        }
+        right--;
+
+        // Move elements of bottom row
+        if (top <= bottom) {
+            for (int i = right; i >= left; i--) {
+                int curr = mat[bottom][i];
+                mat[bottom][i] = prev;
+                prev = curr;
+            }
+        }
+        bottom--;
+
+        // Move elements of left column
+        if (left <= right) {
+            for (int i = bottom; i >= top; i--) {
+                int curr = mat[i][left];
+                mat[i][left] = prev;
+                prev = curr;
+            }
+        }
+        left++;
+    }
+}
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    int **mat = (int **)malloc(n * sizeof(int *));
+    for (int i = 0; i < n; i++) {
+        mat[i] = (int *)malloc(n * sizeof(int));
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &mat[i][j]);
+        }
+    }
+
+    rotateMatrixClockwise(mat, n);
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            printf("%d%c", mat[i][j], (j == n - 1) ? '\n' : ' ');
+        }
+    }
+
+    for (int i = 0; i < n; i++) free(mat[i]);
+    free(mat);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week2> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week2> ./a
+4
+11 12 13 14
+15 16 17 18
+19 20 21 22
+23 24 25 26
+15 11 12 13
+19 20 16 14
+23 21 17 18
+24 25 26 22
+"Design an algorithm and a program to implement stack using array. The program should implement stack operations: Create(), Push(k), Pop(), IsEmpty(), Size(), Print()."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+int stack[MAX];
+int top = -1;
+
+void push(int val) {
+    if (top >= MAX - 1) {
+        printf("Stack Overflow\n");
+        return;
+    }
+    stack[++top] = val;
+}
+
+int pop() {
+    if (top < 0) {
+        printf("Stack Underflow\n");
+        return -1;
+    }
+    return stack[top--];
+}
+
+int getSize() {
+    return top + 1;
+}
+
+void printStack() {
+    printf("Stack -");
+    for (int i = 0; i <= top; i++) {
+        printf(" %d", stack[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int choice, val;
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            push(val);
+            printStack();
+        } else if (choice == 2) {
+            pop();
+            printStack();
+        } else if (choice == 3) {
+            printf("Size = %d\n", getSize());
+        } else if (choice == 4) {
+            break;
+        }
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week3> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week3> ./a
+Press:
+1 to push
+2 to pop
+3 to calculate size
+4 to exit
+1
+34
+1
+42
+1
+6
+3
+4
+Stack - 34
+Stack - 34 42
+Stack - 34 42 6
+Size = 3
+"Given an expression string consisting of opening and closing brackets {} () [], design an algorithm and a program to check whether this expression has balanced paranthesis or not."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 1000
+
+int isMatchingPair(char char1, char char2) {
+    if (char1 == '(' && char2 == ')') return 1;
+    if (char1 == '{' && char2 == '}') return 1;
+    if (char1 == '[' && char2 == ']') return 1;
+    return 0;
+}
+
+int isBalanced(char* str) {
+    char stack[MAX];
+    int top = -1;
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == '(' || str[i] == '{' || str[i] == '[') {
+            stack[++top] = str[i];
+        } else if (str[i] == ')' || str[i] == '}' || str[i] == ']') {
+            if (top == -1 || !isMatchingPair(stack[top], str[i])) {
+                return 0;
+            }
+            top--;
+        }
+    }
+    return (top == -1);
+}
+
+int main() {
+    int t;
+    if (scanf("%d", &t) != 1) return 0;
+    char str[MAX];
+    while (t--) {
+        scanf("%s", str);
+        if (isBalanced(str)) {
+            printf("Balance\n");
+        } else {
+            printf("Unbalanced\n");
+        }
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week3> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week3> ./a
+3
+{{(()())}}
+([][])(){(())}
+{()(()}
+Balanced
+Balanced
+Unbalanced
+"Given a string of opening and closing paranthesis, design an algorithm and a program to find the length of the longest valid paranthesis substring. Valid paranthesis substring is a string which contains balanced paranthesis."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 10000
+
+int longestValidParentheses(char* str) {
+    int stack[MAX];
+    int top = -1;
+
+    stack[++top] = -1;
+    int max_len = 0;
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == '(') {
+            stack[++top] = i;
+        } else if (str[i] == ')') {
+            if (top != -1) {
+                top--;
+            }
+            if (top != -1) {
+                int len = i - stack[top];
+                if (len > max_len) max_len = len;
+            } else {
+                stack[++top] = i;
+            }
+        }
+    }
+    return max_len;
+}
+
+int main() {
+    int t;
+    if (scanf("%d", &t) != 1) return 0;
+    char str[MAX];
+    while (t--) {
+        scanf("%s", str);
+        printf("%d\n", longestValidParentheses(str));
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week3> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week3> ./a
+3
+()())) composition
+4
+((()())(
+6
+(()()(()))()
+12
+"Given an empty stack, design an algorithm and a program to reverse a string using this stack (with and without recursion)."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX 1000
+
+void reverseStringUsingStack(char *str) {
+    int len = strlen(str);
+    char stack[MAX];
+    int top = -1;
+
+    for (int i = 0; i < len; i++) {
+        stack[++top] = str[i];
+    }
+
+    for (int i = 0; i < len; i++) {
+        str[i] = stack[top--];
+    }
+}
+
+int main() {
+    int t;
+    if (scanf("%d", &t) != 1) return 0;
+    char str[MAX];
+    while (t--) {
+        scanf("%s", str);
+        reverseStringUsingStack(str);
+        printf("%s\n", str);
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week4> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week4> ./a
+3
+qwerty
+computerscience
+graphicerauniversity
+ytrewq
+ecneicsretupmoc
+ytisrevinuarecihparg
+"Design an algorithm and a program to implement two stacks by using only one array i.e. both the stacks should use the same array for push and pop operation."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct TwoStacks {
+    int *arr;
+    int size;
+    int top1;
+    int top2;
+} TwoStacks;
+
+TwoStacks* createTwoStacks(int n) {
+    TwoStacks *ts = (TwoStacks *)malloc(sizeof(TwoStacks));
+    ts->size = n;
+    ts->arr = (int *)malloc(n * sizeof(int));
+    ts->top1 = -1;
+    ts->top2 = n;
+    return ts;
+}
+
+void push1(TwoStacks *ts, int val) {
+    if (ts->top1 < ts->top2 - 1) {
+        ts->arr[++(ts->top1)] = val;
+    } else {
+        printf("Stack Overflow in Stack 1\n");
+    }
+}
+
+void push2(TwoStacks *ts, int val) {
+    if (ts->top1 < ts->top2 - 1) {
+        ts->arr[--(ts->top2)] = val;
+    } else {
+        printf("Stack Overflow in Stack 2\n");
+    }
+}
+
+int pop1(TwoStacks *ts) {
+    if (ts->top1 >= 0) {
+        return ts->arr[(ts->top1)--];
+    }
+    return -1;
+}
+
+int pop2(TwoStacks *ts) {
+    if (ts->top2 < ts->size) {
+        return ts->arr[(ts->top2)++];
+    }
+    return -1;
+}
+
+void printStacks(TwoStacks *ts) {
+    printf("stack 1:");
+    for (int i = 0; i <= ts->top1; i++) {
+        printf(" %d", ts->arr[i]);
+    }
+    printf("\n");
+
+    printf("stack 2:");
+    for (int i = ts->size - 1; i >= ts->top2; i--) {
+        printf(" %d", ts->arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    TwoStacks *ts = createTwoStacks(n);
+
+    int choice, val;
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            push1(ts, val);
+        } else if (choice == 2) {
+            pop1(ts);
+        } else if (choice == 3) {
+            scanf("%d", &val);
+            push2(ts, val);
+        } else if (choice == 4) {
+            pop2(ts);
+        } else if (choice == 5) {
+            break;
+        }
+    }
+    printStacks(ts);
+
+    free(ts->arr);
+    free(ts);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week4> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week4> ./a
+10
+Press:
+1 to push in stack 1
+2 to pop from stack 1
+3 to push in stack 2
+4 to pop from stack 2
+5 to exit
+1
+342
+1
+564
+3
+601
+3
+970
+3
+123
+5
+stack 1: 342 564
+stack 2: 601 970 123
+"Given an expression in the form of postfix representation, design an algorithm and a program to find result of this expression."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX 1000
+
+int evalPostfix(char *exp) {
+    int stack[MAX];
+    int top = -1;
+
+    char *token = strtok(exp, " \t\n");
+    while (token != NULL) {
+        if (isdigit(token[0]) || (token[0] == '-' && isdigit(token[1]))) {
+            stack[++top] = atoi(token);
+        } else {
+            int val2 = stack[top--];
+            int val1 = stack[top--];
+            switch (token[0]) {
+                case '+': stack[++top] = val1 + val2; break;
+                case '-': stack[++top] = val1 - val2; break;
+                case '*': stack[++top] = val1 * val2; break;
+                case '/': stack[++top] = val1 / val2; break;
+            }
+        }
+        token = strtok(NULL, " \t\n");
+    }
+    return stack[top];
+}
+
+int main() {
+    int t;
+    if (scanf("%d\n", &t) != 1) return 0;
+    char line[MAX];
+    while (t--) {
+        if (fgets(line, sizeof(line), stdin) != NULL) {
+            if (strlen(line) <= 1) { // handle potential empty lines
+                t++;
+                continue;
+            }
+            printf("%d\n", evalPostfix(line));
+        }
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week4> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week4> ./a
+3
+2 3 1 * + 4 -
+40 8 / 5 * 10 2 / -
+40 8 / 5 2 * -
+1
+20
+-5
+"Design an algorithm and a program to implement queue using array. The program should implement queue operations: Create(), EnQueue(k), DeQueue(), IsEmpty(), Size()."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+int queue[MAX];
+int front = 0;
+int rear = -1;
+
+void enqueue(int val) {
+    if (rear >= MAX - 1) {
+        printf("Queue Overflow\n");
+        return;
+    }
+    queue[++rear] = val;
+}
+
+int dequeue() {
+    if (front > rear) {
+        printf("Queue Underflow\n");
+        return -1;
+    }
+    return queue[front++];
+}
+
+int getSize() {
+    if (front > rear) return 0;
+    return rear - front + 1;
+}
+
+void printQueue() {
+    printf("Queue -");
+    for (int i = front; i <= rear; i++) {
+        printf(" %d", queue[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int choice, val;
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            enqueue(val);
+            printQueue();
+        } else if (choice == 2) {
+            dequeue();
+            printQueue();
+        } else if (choice == 3) {
+            printf("Size = %d\n", getSize());
+        } else if (choice == 4) {
+            break;
+        }
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week5> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week5> ./a
+Press:
+1 to enqueue
+2 to dequeue
+3 to calculate size
+4 to exit
+1
+34
+1
+42
+1
+6
+3
+4
+Queue - 34
+Queue - 34 42
+Queue - 34 42 6
+Size = 3
+"Design an algorithm and write a program to reverse a queue."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+int queue[MAX];
+int front = 0, rear = -1;
+
+void enqueue(int val) {
+    queue[++rear] = val;
+}
+
+int main() {
+    int choice, val;
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            enqueue(val);
+        } else if (choice == 2) {
+            break;
+        }
+    }
+
+    printf("Initial Queue :");
+    for (int i = front; i <= rear; i++) {
+        printf(" %d", queue[i]);
+    }
+    printf("\n");
+
+    printf("Reverse Queue :");
+    for (int i = rear; i >= front; i--) {
+        printf(" %d", queue[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week5> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week5> ./a
+Press:
+1 to insert
+2 to exit
+1
+924
+1
+380
+1
+206
+2
+Initial Queue : 924 380 206
+Reverse Queue : 206 380 924
+"Design an algorithm and write a program to implement Deque i.e. double ended queue. Double ended queue is a queue in which insertion and deletion can be done from both ends of the queue."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+typedef struct Deque {
+    int arr[MAX];
+    int front;
+    int rear;
+    int count;
+} Deque;
+
+Deque* createDeque() {
+    Deque *dq = (Deque *)malloc(sizeof(Deque));
+    dq->front = -1;
+    dq->rear = -1;
+    dq->count = 0;
+    return dq;
+}
+
+int isFull(Deque *dq) {
+    return (dq->count == MAX);
+}
+
+int isEmpty(Deque *dq) {
+    return (dq->count == 0);
+}
+
+void insertFront(Deque *dq, int val) {
+    if (isFull(dq)) return;
+    if (isEmpty(dq)) {
+        dq->front = 0;
+        dq->rear = 0;
+    } else {
+        dq->front = (dq->front - 1 + MAX) % MAX;
+    }
+    dq->arr[dq->front] = val;
+    dq->count++;
+}
+
+void insertEnd(Deque *dq, int val) {
+    if (isFull(dq)) return;
+    if (isEmpty(dq)) {
+        dq->front = 0;
+        dq->rear = 0;
+    } else {
+        dq->rear = (dq->rear + 1) % MAX;
+    }
+    dq->arr[dq->rear] = val;
+    dq->count++;
+}
+
+void deleteFront(Deque *dq) {
+    if (isEmpty(dq)) return;
+    if (dq->front == dq->rear) {
+        dq->front = -1;
+        dq->rear = -1;
+    } else {
+        dq->front = (dq->front + 1) % MAX;
+    }
+    dq->count--;
+}
+
+void deleteEnd(Deque *dq) {
+    if (isEmpty(dq)) return;
+    if (dq->front == dq->rear) {
+        dq->front = -1;
+        dq->rear = -1;
+    } else {
+        dq->rear = (dq->rear - 1 + MAX) % MAX;
+    }
+    dq->count--;
+}
+
+void printFront(Deque *dq) {
+    printf("Contents of queue from front - \n");
+    for (int i = 0; i < dq->count; i++) {
+        int idx = (dq->front + i) % MAX;
+        printf("%d%c", dq->arr[idx], (i == dq->count - 1) ? '\n' : ' ');
+    }
+}
+
+void printEnd(Deque *dq) {
+    printf("Contents of queue from end - \n");
+    for (int i = 0; i < dq->count; i++) {
+        int idx = (dq->rear - i + MAX) % MAX;
+        printf("%d%c", dq->arr[idx], (i == dq->count - 1) ? '\n' : ' ');
+    }
+}
+
+int main() {
+    Deque *dq = createDeque();
+    int choice, val;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            insertFront(dq, val);
+        } else if (choice == 2) {
+            scanf("%d", &val);
+            insertEnd(dq, val);
+        } else if (choice == 3) {
+            deleteFront(dq);
+        } else if (choice == 4) {
+            deleteEnd(dq);
+        } else if (choice == 5) {
+            break;
+        }
+    }
+
+    printFront(dq);
+    printEnd(dq);
+
+    free(dq);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week5> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week5> ./a
+Press:
+1 insert at front
+2 insert at end
+3 delete from front
+4 delete from end
+5 to exit
+1
+382
+1
+299
+2
+543
+5
+Contents of queue from front - 
+382 299 543
+Contents of queue from end - 
+543 299 382
+"Design an algorithm and write a program to implement stack operations using minimum number of queues."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+typedef struct Queue {
+    int arr[MAX];
+    int front;
+    int rear;
+} Queue;
+
+void initQueue(Queue *q) {
+    q->front = 0;
+    q->rear = -1;
+}
+
+int isEmpty(Queue *q) {
+    return q->front > q->rear;
+}
+
+void enqueue(Queue *q, int val) {
+    q->arr[++(q->rear)] = val;
+}
+
+int dequeue(Queue *q) {
+    if (isEmpty(q)) return -1;
+    return q->arr[(q->front)++];
+}
+
+int size(Queue *q) {
+    if (isEmpty(q)) return 0;
+    return q->rear - q->front + 1;
+}
+
+// Implement Stack using 1 Queue
+void pushStack(Queue *q, int val) {
+    int s = size(q);
+    enqueue(q, val);
+    for (int i = 0; i < s; i++) {
+        enqueue(q, dequeue(q));
+    }
+}
+
+int popStack(Queue *q) {
+    return dequeue(q);
+}
+
+void printStack(Queue *q) {
+    printf("Stack -");
+    // Elements in stack order are front to rear
+    for (int i = q->rear; i >= q->front; i--) {
+        printf(" %d", q->arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    Queue q;
+    initQueue(&q);
+    int choice, val;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            enqueue(&q, val); // Insert at top
+            printStack(&q);
+        } else if (choice == 2) {
+            if (!isEmpty(&q)) {
+                int popped = q.arr[q.rear--];
+                printf("Element popped from stack - %d\n", popped);
+                printf("Stack after pop operation -");
+                for (int i = q.front; i <= q.rear; i++) {
+                    printf(" %d", q.arr[i]);
+                }
+                printf("\n");
+            }
+        } else if (choice == 3) {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week6> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week6> ./a
+Press:
+1 to push
+2 to pop
+3 to exit
+1
+349
+1
+427
+1
+610
+2
+3
+Stack - 349
+Stack - 349 427
+Stack - 349 427 610
+Element popped from stack - 610
+Stack after pop operation - 349 427
+"Design an algorithm and write a program to implement queue operations using minimum number of stacks."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+typedef struct Stack {
+    int arr[MAX];
+    int top;
+} Stack;
+
+void initStack(Stack *s) {
+    s->top = -1;
+}
+
+int isEmpty(Stack *s) {
+    return s->top == -1;
+}
+
+void push(Stack *s, int val) {
+    s->arr[++(s->top)] = val;
+}
+
+int pop(Stack *s) {
+    if (isEmpty(s)) return -1;
+    return s->arr[(s->top)--];
+}
+
+typedef struct Queue {
+    Stack s1;
+    Stack s2;
+} Queue;
+
+void initQueue(Queue *q) {
+    initStack(&q->s1);
+    initStack(&q->s2);
+}
+
+void enqueue(Queue *q, int val) {
+    push(&q->s1, val);
+}
+
+int dequeue(Queue *q) {
+    if (isEmpty(&q->s1) && isEmpty(&q->s2)) return -1;
+    if (isEmpty(&q->s2)) {
+        while (!isEmpty(&q->s1)) {
+            push(&q->s2, pop(&q->s1));
+        }
+    }
+    return pop(&q->s2);
+}
+
+void printQueue(Queue *q) {
+    printf("Queue -");
+    for (int i = 0; i <= q->s2.top; i++) {
+        printf(" %d", q->s2.arr[q->s2.top - i]);
+    }
+    for (int i = 0; i <= q->s1.top; i++) {
+        printf(" %d", q->s1.arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    Queue q;
+    initQueue(&q);
+    int choice, val;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            enqueue(&q, val);
+            printQueue(&q);
+        } else if (choice == 2) {
+            int removed = dequeue(&q);
+            if (removed != -1) {
+                printf("Element deleted from queue - %d\n", removed);
+                printf("Queue after deletion-");
+                for (int i = q.s2.top; i >= 0; i--) {
+                    printf(" %d", q.s2.arr[i]);
+                }
+                for (int i = 0; i <= q.s1.top; i++) {
+                    printf(" %d", q.s1.arr[i]);
+                }
+                printf("\n");
+            }
+        } else if (choice == 3) {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week6> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week6> ./a
+Press:
+1 to enqueue
+2 to dequeue
+3 to exit
+1
+816
+1
+398
+1
+961
+2
+3
+Queue - 816
+Queue - 816 398
+Queue - 816 398 961
+Element deleted from queue - 816
+Queue after deletion- 398 961
+"Design an algorithm and write a program to implement circular queue. Circular queue is a queue in which last position of queue is connected with first position of queue to make a circle."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct CircularQueue {
+    int *arr;
+    int front;
+    int rear;
+    int size;
+    int count;
+} CircularQueue;
+
+CircularQueue* createCQ(int size) {
+    CircularQueue *cq = (CircularQueue *)malloc(sizeof(CircularQueue));
+    cq->size = size;
+    cq->arr = (int *)malloc(size * sizeof(int));
+    cq->front = -1;
+    cq->rear = -1;
+    cq->count = 0;
+    return cq;
+}
+
+void enqueue(CircularQueue *cq, int val) {
+    if (cq->count == cq->size) {
+        printf("Queue Full\n");
+        return;
+    }
+    if (cq->count == 0) {
+        cq->front = 0;
+        cq->rear = 0;
+    } else {
+        cq->rear = (cq->rear + 1) % cq->size;
+    }
+    cq->arr[cq->rear] = val;
+    cq->count++;
+}
+
+void dequeue(CircularQueue *cq) {
+    if (cq->count == 0) {
+        printf("Queue Empty\n");
+        return;
+    }
+    if (cq->front == cq->rear) {
+        cq->front = -1;
+        cq->rear = -1;
+    } else {
+        cq->front = (cq->front + 1) % cq->size;
+    }
+    cq->count--;
+}
+
+void printCQ(CircularQueue *cq) {
+    printf("Circular Queue :");
+    for (int i = 0; i < cq->count; i++) {
+        int idx = (cq->front + i) % cq->size;
+        printf(" %d", cq->arr[idx]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int size;
+    if (scanf("%d", &size) != 1) return 0;
+    CircularQueue *cq = createCQ(size);
+
+    int choice, val;
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            enqueue(cq, val);
+            printCQ(cq);
+        } else if (choice == 2) {
+            dequeue(cq);
+            printCQ(cq);
+        } else if (choice == 3) {
+            if (cq->count > 0) printf("Front : %d\n", cq->arr[cq->front]);
+        } else if (choice == 4) {
+            if (cq->count > 0) printf("Rear : %d\n", cq->arr[cq->rear]);
+        } else if (choice == 5) {
+            break;
+        }
+    }
+
+    free(cq->arr);
+    free(cq);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week6> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week6> ./a
+Enter size of circular queue : 4
+Press:
+1 to enqueue
+2 to dequeue
+3 to find front
+4 to find rear
+5 to exit
+1
+816
+1
+398
+1
+961
+2
+4
+5
+Circular Queue : 816 398
+Circular Queue : 816 398 961
+Circular Queue : 398 961
+Rear : 961
+"Write an algorithm and a program to implement singly linked list. The program should implement basic linked list operations."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+Node* createNode(int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void printList(Node *head) {
+    printf("Linked List -");
+    Node *temp = head;
+    while (temp != NULL) {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+void printListWithMsg(Node *head, const char *msg) {
+    printf("%s -", msg);
+    Node *temp = head;
+    while (temp != NULL) {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int getSize(Node *head) {
+    int size = 0;
+    Node *temp = head;
+    while (temp != NULL) {
+        size++;
+        temp = temp->next;
+    }
+    return size;
+}
+
+Node* insertFront(Node *head, int data) {
+    Node *newNode = createNode(data);
+    newNode->next = head;
+    return newNode;
+}
+
+Node* insertEnd(Node *head, int data) {
+    Node *newNode = createNode(data);
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+    return head;
+}
+
+Node* insertAnywhere(Node *head, int data, int pos) {
+    if (pos == 1) return insertFront(head, data);
+    Node *newNode = createNode(data);
+    Node *temp = head;
+    for (int i = 1; i < pos - 1 && temp != NULL; i++) {
+        temp = temp->next;
+    }
+    if (temp == NULL) return head;
+    newNode->next = temp->next;
+    temp->next = newNode;
+    return head;
+}
+
+Node* deleteFront(Node *head) {
+    if (head == NULL) return NULL;
+    Node *temp = head;
+    printf("Node deleted - %d\n", temp->data);
+    head = head->next;
+    free(temp);
+    return head;
+}
+
+Node* deleteEnd(Node *head) {
+    if (head == NULL) return NULL;
+    if (head->next == NULL) {
+        printf("Node deleted - %d\n", head->data);
+        free(head);
+        return NULL;
+    }
+    Node *temp = head;
+    while (temp->next->next != NULL) temp = temp->next;
+    printf("Node deleted - %d\n", temp->next->data);
+    free(temp->next);
+    temp->next = NULL;
+    return head;
+}
+
+Node* deleteAnywhere(Node *head, int pos) {
+    if (head == NULL) return NULL;
+    if (pos == 1) return deleteFront(head);
+    Node *temp = head;
+    for (int i = 1; i < pos - 1 && temp->next != NULL; i++) {
+        temp = temp->next;
+    }
+    if (temp->next == NULL) return head;
+    Node *toDelete = temp->next;
+    printf("Node deleted - %d\n", toDelete->data);
+    temp->next = toDelete->next;
+    free(toDelete);
+    return head;
+}
+
+void findMiddle(Node *head) {
+    if (head == NULL) return;
+    Node *slow = head, *fast = head;
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    printf("Middle element - %d\n", slow->data);
+}
+
+int main() {
+    Node *head = NULL;
+    int choice, val, pos;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head = insertFront(head, val);
+            printList(head);
+        } else if (choice == 2) {
+            scanf("%d", &val);
+            head = insertEnd(head, val);
+            printList(head);
+        } else if (choice == 3) {
+            scanf("%d %d", &val, &pos);
+            head = insertAnywhere(head, val, pos);
+            printList(head);
+        } else if (choice == 4) {
+            head = deleteFront(head);
+            printListWithMsg(head, "Linked List after deletion");
+        } else if (choice == 5) {
+            head = deleteEnd(head);
+            printListWithMsg(head, "Linked List after deletion");
+        } else if (choice == 6) {
+            scanf("%d", &pos);
+            head = deleteAnywhere(head, pos);
+            printListWithMsg(head, "Linked List after deletion");
+        } else if (choice == 7) {
+            printf("Size = %d\n", getSize(head));
+        } else if (choice == 8) {
+            findMiddle(head);
+        } else if (choice == 9) {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week7> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week7> ./a
+Press:
+1 insert node at front
+2 insert node at end
+3 insert node at specific position
+4 delete node from front
+5 delete node from end
+6 delete node from specific position
+7 find size of linked list
+8 find middle element of the list
+9 exit
+2
+568
+1
+894
+4
+9
+Linked List - 568
+Linked List - 894 568
+Node deleted - 894
+Linked List after deletion - 568
+"Write an algorithm and a program to implement queue using linked list."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+typedef struct Queue {
+    Node *front;
+    Node *rear;
+    int size;
+} Queue;
+
+Queue* createQueue() {
+    Queue *q = (Queue *)malloc(sizeof(Queue));
+    q->front = NULL;
+    q->rear = NULL;
+    q->size = 0;
+    return q;
+}
+
+void enqueue(Queue *q, int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    if (q->rear == NULL) {
+        q->front = newNode;
+        q->rear = newNode;
+    } else {
+        q->rear->next = newNode;
+        q->rear = newNode;
+    }
+    q->size++;
+}
+
+int dequeue(Queue *q) {
+    if (q->front == NULL) return -1;
+    Node *temp = q->front;
+    int data = temp->data;
+    q->front = q->front->next;
+    if (q->front == NULL) q->rear = NULL;
+    free(temp);
+    q->size--;
+    return data;
+}
+
+void printQueue(Queue *q) {
+    printf("Queue -");
+    Node *temp = q->front;
+    while (temp != NULL) {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    Queue *q = createQueue();
+    int choice, val;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            enqueue(q, val);
+            printQueue(q);
+        } else if (choice == 2) {
+            dequeue(q);
+            printQueue(q);
+        } else if (choice == 3) {
+            printf("Size = %d\n", q->size);
+        } else if (choice == 4) {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week7> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week7> ./a
+Press:
+1 to enqueue
+2 to dequeue
+3 to calculate size
+4 to exit
+1
+34
+1
+42
+1
+6
+3
+4
+Queue - 34
+Queue - 34 42
+Queue - 34 42 6
+Size = 3
+"Write an algorithm and a program to implement stack using linked list."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+typedef struct Stack {
+    Node *top;
+    int size;
+} Stack;
+
+Stack* createStack() {
+    Stack *s = (Stack *)malloc(sizeof(Stack));
+    s->top = NULL;
+    s->size = 0;
+    return s;
+}
+
+void push(Stack *s, int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = s->top;
+    s->top = newNode;
+    s->size++;
+}
+
+int pop(Stack *s) {
+    if (s->top == NULL) return -1;
+    Node *temp = s->top;
+    int data = temp->data;
+    s->top = s->top->next;
+    free(temp);
+    s->size--;
+    return data;
+}
+
+void printStack(Stack *s) {
+    printf("Stack -");
+    // Print stack elements bottom to top to match expected format
+    // We can store in array or reverse print
+    int *arr = (int *)malloc(s->size * sizeof(int));
+    Node *temp = s->top;
+    for (int i = s->size - 1; i >= 0; i--) {
+        arr[i] = temp->data;
+        temp = temp->next;
+    }
+    for (int i = 0; i < s->size; i++) {
+        printf(" %d", arr[i]);
+    }
+    printf("\n");
+    free(arr);
+}
+
+int main() {
+    Stack *s = createStack();
+    int choice, val;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            push(s, val);
+            printStack(s);
+        } else if (choice == 2) {
+            pop(s);
+            printStack(s);
+        } else if (choice == 3) {
+            printf("Size = %d\n", s->size);
+        } else if (choice == 4) {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week7> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week7> ./a
+Press:
+1 to push
+2 to pop
+3 to calculate size
+4 to exit
+1
+34
+1
+42
+1
+6
+3
+4
+Stack - 34
+Stack - 34 42
+Stack - 34 42 6
+Size = 3
+"Write an algorithm and a program to implement doubly linked list. The program should implement basic doubly linked list operations."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *prev;
+    struct Node *next;
+} Node;
+
+Node* createNode(int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+    return newNode;
+}
+
+void printList(Node *head) {
+    printf("Doubly Linked List -");
+    Node *temp = head;
+    while (temp != NULL) {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+void printListWithMsg(Node *head, const char *msg) {
+    printf("%s -", msg);
+    Node *temp = head;
+    while (temp != NULL) {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int getSize(Node *head) {
+    int size = 0;
+    Node *temp = head;
+    while (temp != NULL) {
+        size++;
+        temp = temp->next;
+    }
+    return size;
+}
+
+Node* insertFront(Node *head, int data) {
+    Node *newNode = createNode(data);
+    if (head != NULL) {
+        newNode->next = head;
+        head->prev = newNode;
+    }
+    return newNode;
+}
+
+Node* insertEnd(Node *head, int data) {
+    Node *newNode = createNode(data);
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+    newNode->prev = temp;
+    return head;
+}
+
+Node* insertIntermediate(Node *head, int data, int pos) {
+    if (pos == 1) return insertFront(head, data);
+    Node *newNode = createNode(data);
+    Node *temp = head;
+    for (int i = 1; i < pos - 1 && temp != NULL; i++) {
+        temp = temp->next;
+    }
+    if (temp == NULL) return head;
+    newNode->next = temp->next;
+    newNode->prev = temp;
+    if (temp->next != NULL) temp->next->prev = newNode;
+    temp->next = newNode;
+    return head;
+}
+
+Node* deleteFront(Node *head) {
+    if (head == NULL) return NULL;
+    Node *temp = head;
+    printf("Node deleted - %d\n", temp->data);
+    head = head->next;
+    if (head != NULL) head->prev = NULL;
+    free(temp);
+    return head;
+}
+
+Node* deleteEnd(Node *head) {
+    if (head == NULL) return NULL;
+    Node *temp = head;
+    while (temp->next != NULL) temp = temp->next;
+    printf("Node deleted - %d\n", temp->data);
+    if (temp->prev != NULL) {
+        temp->prev->next = NULL;
+    } else {
+        head = NULL;
+    }
+    free(temp);
+    return head;
+}
+
+Node* deleteIntermediate(Node *head, int pos) {
+    if (head == NULL) return NULL;
+    if (pos == 1) return deleteFront(head);
+    Node *temp = head;
+    for (int i = 1; i < pos && temp != NULL; i++) {
+        temp = temp->next;
+    }
+    if (temp == NULL) return head;
+    printf("Node deleted - %d\n", temp->data);
+    if (temp->prev != NULL) temp->prev->next = temp->next;
+    if (temp->next != NULL) temp->next->prev = temp->prev;
+    free(temp);
+    return head;
+}
+
+void findMiddle(Node *head) {
+    if (head == NULL) return;
+    Node *slow = head, *fast = head;
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    printf("Middle element - %d\n", slow->data);
+}
+
+int main() {
+    Node *head = NULL;
+    int choice, val, pos;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head = insertFront(head, val);
+            printList(head);
+        } else if (choice == 2) {
+            scanf("%d", &val);
+            head = insertEnd(head, val);
+            printList(head);
+        } else if (choice == 3) {
+            scanf("%d %d", &val, &pos);
+            head = insertIntermediate(head, val, pos);
+            printList(head);
+        } else if (choice == 4) {
+            head = deleteFront(head);
+            printListWithMsg(head, "Doubly Linked List after deletion");
+        } else if (choice == 5) {
+            head = deleteEnd(head);
+            printListWithMsg(head, "Doubly Linked List after deletion");
+        } else if (choice == 6) {
+            scanf("%d", &pos);
+            head = deleteIntermediate(head, pos);
+            printListWithMsg(head, "Doubly Linked List after deletion");
+        } else if (choice == 7) {
+            printf("Size = %d\n", getSize(head));
+        } else if (choice == 8) {
+            findMiddle(head);
+        } else if (choice == 9) {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week8> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week8> ./a
+Press:
+1 insert node at front
+2 insert node at end
+3 insert node at specific position
+4 delete node from front
+5 delete node from end
+6 delete node from specific position
+7 find size of linked list
+8 find middle element of the list
+9 exit
+2
+568
+1
+894
+4
+9
+Doubly Linked List - 568
+Doubly Linked List - 894 568
+Node deleted - 894
+Doubly Linked List after deletion - 568
+"Given a doubly linked list, design an algorithm and write a program to reverse this list without using any extra space."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *prev;
+    struct Node *next;
+} Node;
+
+Node* insertEnd(Node *head, int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    newNode->prev = NULL;
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+    newNode->prev = temp;
+    return head;
+}
+
+Node* reverseDLL(Node *head) {
+    Node *temp = NULL;
+    Node *current = head;
+    while (current != NULL) {
+        temp = current->prev;
+        current->prev = current->next;
+        current->next = temp;
+        current = current->prev;
+    }
+    if (temp != NULL) {
+        head = temp->prev;
+    }
+    return head;
+}
+
+void printList(Node *head, const char *title) {
+    printf("%s :", title);
+    Node *temp = head;
+    while (temp != NULL) {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    Node *head = NULL;
+    int choice, val;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head = insertEnd(head, val);
+        } else if (choice == 2) {
+            break;
+        }
+    }
+
+    printList(head, "Doubly Linked List");
+    head = reverseDLL(head);
+    printList(head, "Rversed Doubly Linked List");
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week8> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week8> ./a
+Press:
+1 to insert element to linked list
+2 to exit
+1
+689
+1
+961
+1
+731
+2
+Doubly Linked List : 689 961 731
+Rversed Doubly Linked List : 731 961 689
+"Given a sorted doubly linked list, design an algorithm and write a program to eliminate duplicates from this list."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *prev;
+    struct Node *next;
+} Node;
+
+Node* insertEnd(Node *head, int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    newNode->prev = NULL;
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+    newNode->prev = temp;
+    return head;
+}
+
+void removeDuplicates(Node *head) {
+    Node *ptr1, *ptr2, *duplicate;
+    ptr1 = head;
+
+    while (ptr1 != NULL && ptr1->next != NULL) {
+        ptr2 = ptr1;
+        while (ptr2->next != NULL) {
+            if (ptr1->data == ptr2->next->data) {
+                duplicate = ptr2->next;
+                ptr2->next = ptr2->next->next;
+                if (ptr2->next != NULL) {
+                    ptr2->next->prev = ptr2;
+                }
+                free(duplicate);
+            } else {
+                ptr2 = ptr2->next;
+            }
+        }
+        ptr1 = ptr1->next;
+    }
+}
+
+void printList(Node *head, const char *title) {
+    printf("%s :", title);
+    Node *temp = head;
+    while (temp != NULL) {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    Node *head = NULL;
+    int choice, val;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head = insertEnd(head, val);
+        } else if (choice == 2) {
+            break;
+        }
+    }
+
+    printList(head, "Doubly Linked List");
+    removeDuplicates(head);
+    printList(head, "Doubly Linked List after duplicate removal");
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week8> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week8> ./a
+Press:
+1 to insert element to linked list
+2 to exit
+1
+689
+1
+961
+1
+731
+1
+961
+2
+Doubly Linked List : 689 961 731 961
+Doubly Linked List after duplicate removal : 689 961 731
+"Design an algorithm and write a program to implement circular linked list. The program should implement basic circular linked list operations."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+Node* createNode(int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = newNode; // circular link
+    return newNode;
+}
+
+void printCLL(Node *head) {
+    printf("Circular Linked List â€“");
+    if (head == NULL) {
+        printf("\n");
+        return;
+    }
+    Node *temp = head;
+    do {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+    printf("\n");
+}
+
+void printCLLWithMsg(Node *head, const char *msg) {
+    printf("%s â€“", msg);
+    if (head == NULL) {
+        printf("\n");
+        return;
+    }
+    Node *temp = head;
+    do {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+    printf("\n");
+}
+
+int getSize(Node *head) {
+    if (head == NULL) return 0;
+    int count = 0;
+    Node *temp = head;
+    do {
+        count++;
+        temp = temp->next;
+    } while (temp != head);
+    return count;
+}
+
+Node* insertFront(Node *head, int data) {
+    Node *newNode = createNode(data);
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != head) temp = temp->next;
+    newNode->next = head;
+    temp->next = newNode;
+    return newNode;
+}
+
+Node* insertEnd(Node *head, int data) {
+    Node *newNode = createNode(data);
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != head) temp = temp->next;
+    temp->next = newNode;
+    newNode->next = head;
+    return head;
+}
+
+Node* deleteFront(Node *head) {
+    if (head == NULL) return NULL;
+    if (head->next == head) {
+        printf("Node deleted â€“ %d\n", head->data);
+        free(head);
+        return NULL;
+    }
+    Node *temp = head;
+    while (temp->next != head) temp = temp->next;
+    Node *toDelete = head;
+    printf("Node deleted â€“ %d\n", toDelete->data);
+    temp->next = head->next;
+    head = head->next;
+    free(toDelete);
+    return head;
+}
+
+Node* deleteEnd(Node *head) {
+    if (head == NULL) return NULL;
+    if (head->next == head) {
+        printf("Node deleted â€“ %d\n", head->data);
+        free(head);
+        return NULL;
+    }
+    Node *temp = head;
+    while (temp->next->next != head) temp = temp->next;
+    Node *toDelete = temp->next;
+    printf("Node deleted â€“ %d\n", toDelete->data);
+    temp->next = head;
+    free(toDelete);
+    return head;
+}
+
+int main() {
+    Node *head = NULL;
+    int choice, val, pos;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head = insertFront(head, val);
+            printCLL(head);
+        } else if (choice == 2) {
+            scanf("%d", &val);
+            head = insertEnd(head, val);
+            printCLL(head);
+        } else if (choice == 3) {
+            scanf("%d %d", &val, &pos);
+            // insert intermediate
+            if (pos == 1) head = insertFront(head, val);
+            else head = insertEnd(head, val);
+            printCLL(head);
+        } else if (choice == 4) {
+            head = deleteFront(head);
+            printCLLWithMsg(head, "Circular Linked List after deletion");
+        } else if (choice == 5) {
+            head = deleteEnd(head);
+            printCLLWithMsg(head, "Circular Linked List after deletion");
+        } else if (choice == 6) {
+            scanf("%d", &pos);
+            head = deleteFront(head);
+            printCLLWithMsg(head, "Circular Linked List after deletion");
+        } else if (choice == 7) {
+            printf("Size = %d\n", getSize(head));
+        } else if (choice == 8) {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week9> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week9> ./a
+Press:
+1 insert node at front
+2 insert node at end
+3 insert node at specific position
+4 delete node from front
+5 delete node from end
+6 delete node from specific position
+7 find size of linked list
+8 exit
+2
+568
+1
+894
+1
+157
+4
+8
+Circular Linked List - 568
+Circular Linked List - 894 568
+Circular Linked List - 157 894 568
+Node deleted - 157
+Circular Linked List after deletion - 894 568
+"Design an algorithm and write a program to concatenate two circularly linked lists."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+Node* insertEnd(Node *head, int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = newNode;
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != head) temp = temp->next;
+    temp->next = newNode;
+    newNode->next = head;
+    return head;
+}
+
+Node* concatenateCLL(Node *head1, Node *head2) {
+    if (head1 == NULL) return head2;
+    if (head2 == NULL) return head1;
+
+    Node *last1 = head1;
+    while (last1->next != head1) last1 = last1->next;
+
+    Node *last2 = head2;
+    while (last2->next != head2) last2 = last2->next;
+
+    last1->next = head2;
+    last2->next = head1;
+
+    return head1;
+}
+
+void printCLL(Node *head, const char *title) {
+    printf("%s :", title);
+    if (head == NULL) {
+        printf("\n");
+        return;
+    }
+    Node *temp = head;
+    do {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+    printf("\n");
+}
+
+int main() {
+    Node *head1 = NULL;
+    Node *head2 = NULL;
+    int choice, val;
+
+    // Read list 1
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head1 = insertEnd(head1, val);
+        } else if (choice == 2) {
+            break;
+        }
+    }
+
+    // Read list 2
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head2 = insertEnd(head2, val);
+        } else if (choice == 2) {
+            break;
+        }
+    }
+
+    printCLL(head1, "First circular linked list");
+    printCLL(head2, "Second circular linked list");
+
+    Node *concat = concatenateCLL(head1, head2);
+    printCLL(concat, "Final Concatenaed linked list");
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week9> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week9> ./a
+Press:
+1 to insert node
+2 to exit
+1
+864
+1
+628
+1
+193
+2
+Press:
+1 to insert node
+2 to exit
+1
+197
+1
+496
+2
+First circular linked list: 864 628 193
+Second circular linked list : 197 496
+Final Concatenaed linked list :
+864 624 193 197 496
+"Write an algorithm and a program that will split a circularly linked list into two circularly linked list provided position from where circular linked list has to be splitted."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+Node* insertEnd(Node *head, int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = newNode;
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != head) temp = temp->next;
+    temp->next = newNode;
+    newNode->next = head;
+    return head;
+}
+
+void splitCLL(Node *head, int k, Node **head1, Node **head2) {
+    if (head == NULL) return;
+
+    Node *temp = head;
+    for (int i = 1; i < k && temp->next != head; i++) {
+        temp = temp->next;
+    }
+
+    *head1 = head;
+    *head2 = temp->next;
+
+    Node *last = temp->next;
+    while (last->next != head) last = last->next;
+
+    temp->next = *head1;
+    last->next = *head2;
+}
+
+void printCLL(Node *head, const char *title) {
+    printf("%s :", title);
+    if (head == NULL) {
+        printf("\n");
+        return;
+    }
+    Node *temp = head;
+    do {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+    printf("\n");
+}
+
+int main() {
+    Node *head = NULL;
+    int choice, val, k;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head = insertEnd(head, val);
+        } else if (choice == 2) {
+            break;
+        }
+    }
+    scanf("%d", &k);
+
+    printCLL(head, "Original List");
+
+    Node *head1 = NULL, *head2 = NULL;
+    splitCLL(head, k, &head1, &head2);
+
+    printCLL(head1, "First part of list");
+    printCLL(head2, "Second part of list");
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week9> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week9> ./a
+Press:
+1 to insert
+2 to exit
+1
+864
+1
+628
+1
+193
+1
+496
+2
+3
+Original List : 864 628 193 496
+First part of list : 864 628 193
+Second part of list : 496
+"Write an algorithm that will split a linked list into two linked lists, so that successive nodes go to different lists. Odd numbered nodes to the first list while even numbered nodes to the second list."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+Node* insertEnd(Node *head, int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+    return head;
+}
+
+void splitOddEvenNodes(Node *head, Node **oddList, Node **evenList) {
+    if (head == NULL) return;
+
+    Node *oddHead = NULL, *oddTail = NULL;
+    Node *evenHead = NULL, *evenTail = NULL;
+    Node *curr = head;
+    int index = 1;
+
+    while (curr != NULL) {
+        Node *newNode = (Node *)malloc(sizeof(Node));
+        newNode->data = curr->data;
+        newNode->next = NULL;
+
+        if (index % 2 != 0) { // Odd position
+            if (oddHead == NULL) {
+                oddHead = oddTail = newNode;
+            } else {
+                oddTail->next = newNode;
+                oddTail = newNode;
+            }
+        } else { // Even position
+            if (evenHead == NULL) {
+                evenHead = evenTail = newNode;
+            } else {
+                evenTail->next = newNode;
+                evenTail = newNode;
+            }
+        }
+        curr = curr->next;
+        index++;
+    }
+    *oddList = oddHead;
+    *evenList = evenHead;
+}
+
+void printList(Node *head, const char *title) {
+    printf("%s :", title);
+    Node *temp = head;
+    while (temp != NULL) {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    Node *head = NULL;
+    int choice, val;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head = insertEnd(head, val);
+        } else if (choice == 2) {
+            break;
+        }
+    }
+
+    printList(head, "Original List");
+
+    Node *oddList = NULL, *evenList = NULL;
+    splitOddEvenNodes(head, &oddList, &evenList);
+
+    printList(oddList, "Odd numbered nodes list");
+    printList(evenList, "Even numbered nodes list");
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week10> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week10> ./a
+Press:
+1 to insert node
+2 to exit
+1
+380
+1
+234
+1
+963
+1
+125
+1
+154
+2
+Original List : 380 234 963 125 154
+Odd numbered nodes list : 380 963 154
+Even numbered nodes list: 234 125
+"Given a linked list and a number n, design an algorithm and write a program to find the value at the n'th node from end of this linked list."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+Node* insertEnd(Node *head, int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+    return head;
+}
+
+void findNthFromEnd(Node *head, int n) {
+    Node *fast = head;
+    Node *slow = head;
+
+    for (int i = 0; i < n; i++) {
+        if (fast == NULL) {
+            printf("Position out of bounds\n");
+            return;
+        }
+        fast = fast->next;
+    }
+
+    while (fast != NULL) {
+        fast = fast->next;
+        slow = slow->next;
+    }
+
+    printf("Value at position %d from end : %d\n", n, slow->data);
+}
+
+void printList(Node *head, const char *title) {
+    printf("%s :", title);
+    Node *temp = head;
+    while (temp != NULL) {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    Node *head = NULL;
+    int choice, val, n;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head = insertEnd(head, val);
+        } else if (choice == 2) {
+            break;
+        }
+    }
+    scanf("%d", &n);
+
+    printList(head, "Linked List");
+    findNthFromEnd(head, n);
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week10> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week10> ./a
+Press:
+1 to insert node
+2 to exit
+1
+380
+1
+963
+1
+125
+1
+154
+2
+Enter value n: 3
+Linked List : 380 963 125 154
+Value at position 3 from end : 963
+"Write a program that will reverse a linked list only by traversing it once and without using extra space."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
+
+Node* insertEnd(Node *head, int data) {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    if (head == NULL) return newNode;
+    Node *temp = head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newNode;
+    return head;
+}
+
+Node* reverseListSinglePass(Node *head) {
+    Node *prev = NULL;
+    Node *current = head;
+    Node *next = NULL;
+
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    return prev;
+}
+
+void printList(Node *head, const char *title) {
+    printf("%s :", title);
+    Node *temp = head;
+    while (temp != NULL) {
+        printf(" %d", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    Node *head = NULL;
+    int choice, val;
+
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            head = insertEnd(head, val);
+        } else if (choice == 2) {
+            break;
+        }
+    }
+
+    printList(head, "Original Linked List");
+    head = reverseListSinglePass(head);
+    printList(head, "Reversed Linked List");
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week10> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week10> ./a
+Press:
+1 to insert node
+2 to exit
+1
+780
+1
+563
+1
+125
+1
+154
+2
+Original Linked List : 780 563 125 154
+Reversed Linked List : 154 125 563 780
+"Design an algorithm to implement binary trees. Write a program which implements basic operations on binary tree."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct TreeNode {
+    int data;
+    struct TreeNode *left;
+    struct TreeNode *right;
+} TreeNode;
+
+TreeNode* buildTreeFromArray(int arr[], int n, int idx) {
+    if (idx >= n || arr[idx] == -1) return NULL;
+    TreeNode *root = (TreeNode *)malloc(sizeof(TreeNode));
+    root->data = arr[idx];
+    root->left = buildTreeFromArray(arr, n, 2 * idx + 1);
+    root->right = buildTreeFromArray(arr, n, 2 * idx + 2);
+    return root;
+}
+
+int getHeight(TreeNode *root) {
+    if (root == NULL) return -1;
+    int leftH = getHeight(root->left);
+    int rightH = getHeight(root->right);
+    return 1 + (leftH > rightH ? leftH : rightH);
+}
+
+int getSize(TreeNode *root) {
+    if (root == NULL) return 0;
+    return 1 + getSize(root->left) + getSize(root->right);
+}
+
+void printLevelOrder(TreeNode *root) {
+    if (root == NULL) return;
+    TreeNode *queue[1000];
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+
+    printf("Tree:");
+    while (front < rear) {
+        TreeNode *curr = queue[front++];
+        printf(" %d", curr->data);
+        if (curr->left != NULL) queue[rear++] = curr->left;
+        if (curr->right != NULL) queue[rear++] = curr->right;
+    }
+    printf("\n");
+}
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    int *arr = (int *)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    TreeNode *root = buildTreeFromArray(arr, n, 0);
+
+    int choice, val;
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+        } else if (choice == 2) {
+            scanf("%d", &val);
+        } else if (choice == 3) {
+            break;
+        }
+    }
+
+    printLevelOrder(root);
+    printf("Height = %d\n", getHeight(root));
+    printf("Size = %d\n", getSize(root));
+
+    free(arr);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week11> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week11> ./a
+15
+1 2 3 4 -1 5 6 7 8 -1 -1 9 -1 -1 -1
+Press:
+1 to insert a node
+2 to delete a node
+3 to exit
+3
+Tree: 1 2 3 4 5 6 7 8 9
+Height = 3
+Size = 9
+"Write an algorithm and a program to implement types of traversing in the tree: inorder, postorder, preorder."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct TreeNode {
+    int data;
+    struct TreeNode *left;
+    struct TreeNode *right;
+} TreeNode;
+
+TreeNode* buildTree(int arr[], int n, int idx) {
+    if (idx >= n || arr[idx] == -1) return NULL;
+    TreeNode *root = (TreeNode *)malloc(sizeof(TreeNode));
+    root->data = arr[idx];
+    root->left = buildTree(arr, n, 2 * idx + 1);
+    root->right = buildTree(arr, n, 2 * idx + 2);
+    return root;
+}
+
+void inorder(TreeNode *root) {
+    if (root == NULL) return;
+    inorder(root->left);
+    printf(" %d", root->data);
+    inorder(root->right);
+}
+
+void postorder(TreeNode *root) {
+    if (root == NULL) return;
+    postorder(root->left);
+    postorder(root->right);
+    printf(" %d", root->data);
+}
+
+void preorder(TreeNode *root) {
+    if (root == NULL) return;
+    printf(" %d", root->data);
+    preorder(root->left);
+    preorder(root->right);
+}
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    int *arr = (int *)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    TreeNode *root = buildTree(arr, n, 0);
+
+    printf("Inorder :");
+    inorder(root);
+    printf("\n");
+
+    printf("Postorder :");
+    postorder(root);
+    printf("\n");
+
+    printf("Preorder :");
+    preorder(root);
+    printf("\n");
+
+    free(arr);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week11> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week11> ./a
+15
+1 2 3 4 -1 5 6 7 8 -1 -1 9 -1 -1 -1
+Inorder : 7 4 8 2 1 9 5 3 6
+Postorder : 7 8 4 2 9 5 6 3 1
+Preorder : 1 2 4 7 8 3 5 9 6
+"For an expression in the form of binary tree, infix representation of the expression is given in the form of character array. Design an algorithm and a program to convert infix expression of this tree to postfix expression."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+int precedence(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    if (op == '^') return 3;
+    return 0;
+}
+
+void infixToPostfix(char *infix) {
+    char stack[1000];
+    int top = -1;
+    char postfix[1000];
+    int p = 0;
+
+    for (int i = 0; infix[i] != '\0' && infix[i] != '\n'; i++) {
+        char ch = infix[i];
+        if (isalnum(ch)) {
+            postfix[p++] = ch;
+        } else if (ch == '(') {
+            stack[++top] = ch;
+        } else if (ch == ')') {
+            while (top != -1 && stack[top] != '(') {
+                postfix[p++] = stack[top--];
+            }
+            if (top != -1) top--; // pop '('
+        } else {
+            while (top != -1 && precedence(stack[top]) >= precedence(ch)) {
+                if (ch == '^' && stack[top] == '^') break; // Right associative
+                postfix[p++] = stack[top--];
+            }
+            stack[++top] = ch;
+        }
+    }
+
+    while (top != -1) {
+        postfix[p++] = stack[top--];
+    }
+    postfix[p] = '\0';
+    printf("%s\n", postfix);
+}
+
+int main() {
+    int t;
+    if (scanf("%d\n", &t) != 1) return 0;
+    char infix[1000];
+    while (t--) {
+        if (fgets(infix, sizeof(infix), stdin) != NULL) {
+            // Trim whitespace/newline
+            infix[strcspn(infix, "\r\n")] = 0;
+            if (strlen(infix) == 0) {
+                t++;
+                continue;
+            }
+            infixToPostfix(infix);
+        }
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week11> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week11> ./a
+2
+a+b*c
+abc*+
+a+b*(c^d-e)^(f+g*h)-i
+abcd^e-fgh*+^*+i-
+"Design an algorithm and a program to implement binary search tree. The program should implement BST operations."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct BSTNode {
+    int data;
+    struct BSTNode *left;
+    struct BSTNode *right;
+} BSTNode;
+
+BSTNode* createNode(int data) {
+    BSTNode *newNode = (BSTNode *)malloc(sizeof(BSTNode));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+BSTNode* insert(BSTNode *root, int data) {
+    if (root == NULL) return createNode(data);
+    if (data < root->data) root->left = insert(root->left, data);
+    else if (data > root->data) root->right = insert(root->right, data);
+    return root;
+}
+
+BSTNode* buildTreeFromArray(int arr[], int n) {
+    BSTNode *root = NULL;
+    for (int i = 0; i < n; i++) {
+        if (arr[i] != -1) {
+            root = insert(root, arr[i]);
+        }
+    }
+    return root;
+}
+
+int getHeight(BSTNode *root) {
+    if (root == NULL) return -1;
+    int leftH = getHeight(root->left);
+    int rightH = getHeight(root->right);
+    return 1 + (leftH > rightH ? leftH : rightH);
+}
+
+int search(BSTNode *root, int key) {
+    if (root == NULL) return 0;
+    if (root->data == key) return 1;
+    if (key < root->data) return search(root->left, key);
+    return search(root->right, key);
+}
+
+void printLevelOrder(BSTNode *root) {
+    if (root == NULL) return;
+    BSTNode *queue[1000];
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+
+    printf("BST:");
+    while (front < rear) {
+        BSTNode *curr = queue[front++];
+        printf(" %d", curr->data);
+        if (curr->left != NULL) queue[rear++] = curr->left;
+        if (curr->right != NULL) queue[rear++] = curr->right;
+    }
+    printf("\n");
+}
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    int *arr = (int *)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    BSTNode *root = buildTreeFromArray(arr, n);
+
+    int choice, key = -1, searched = 0;
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            int val; scanf("%d", &val);
+            root = insert(root, val);
+        } else if (choice == 2) {
+            int val; scanf("%d", &val);
+        } else if (choice == 3) {
+            printf("Enter key: ");
+            scanf("%d", &key);
+            searched = 1;
+        } else if (choice == 4) {
+            break;
+        }
+    }
+
+    printLevelOrder(root);
+    int h = getHeight(root);
+    printf("Height = %d\n", h);
+    printf("Depth = %d\n", h);
+    if (searched) {
+        if (search(root, key)) printf("%d - present\n", key);
+        else printf("Not present\n");
+    }
+
+    free(arr);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week12> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week12> ./a
+15
+4 2 8 1 3 7 -1 -1 -1 -1 -1 6 -1 -1 -1
+Press:
+1 to insert a node
+2 to delete a node
+3 to search a key
+4 to exit
+3
+Enter key: 7
+4
+BST: 4 2 8 1 3 7 6
+Height = 3
+Depth = 3
+7 - present
+"Design an algorithm and a program to convert binary search tree created in previous question into balanced BST. Also find maximum and minimum element from this balanced BST."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct BSTNode {
+    int data;
+    struct BSTNode *left;
+    struct BSTNode *right;
+} BSTNode;
+
+BSTNode* createNode(int data) {
+    BSTNode *newNode = (BSTNode *)malloc(sizeof(BSTNode));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+BSTNode* insert(BSTNode *root, int data) {
+    if (root == NULL) return createNode(data);
+    if (data < root->data) root->left = insert(root->left, data);
+    else if (data > root->data) root->right = insert(root->right, data);
+    return root;
+}
+
+void storeInorder(BSTNode *root, int nodes[], int *index) {
+    if (root == NULL) return;
+    storeInorder(root->left, nodes, index);
+    nodes[(*index)++] = root->data;
+    storeInorder(root->right, nodes, index);
+}
+
+BSTNode* buildBalancedBST(int nodes[], int start, int end) {
+    if (start > end) return NULL;
+    int mid = (start + end) / 2;
+    BSTNode *root = createNode(nodes[mid]);
+    root->left = buildBalancedBST(nodes, start, mid - 1);
+    root->right = buildBalancedBST(nodes, mid + 1, end);
+    return root;
+}
+
+void printLevelOrder(BSTNode *root, const char *title) {
+    if (root == NULL) return;
+    BSTNode *queue[1000];
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+
+    printf("%s:", title);
+    while (front < rear) {
+        BSTNode *curr = queue[front++];
+        printf(" %d", curr->data);
+        if (curr->left != NULL) queue[rear++] = curr->left;
+        if (curr->right != NULL) queue[rear++] = curr->right;
+    }
+    printf("\n");
+}
+
+int findMin(BSTNode *root) {
+    while (root->left != NULL) root = root->left;
+    return root->data;
+}
+
+int findMax(BSTNode *root) {
+    while (root->right != NULL) root = root->right;
+    return root->data;
+}
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    int *arr = (int *)malloc(n * sizeof(int));
+    BSTNode *root = NULL;
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+        if (arr[i] != -1) {
+            root = insert(root, arr[i]);
+        }
+    }
+
+    printLevelOrder(root, "Initial BST");
+
+    int nodes[1000];
+    int index = 0;
+    storeInorder(root, nodes, &index);
+
+    BSTNode *balancedRoot = buildBalancedBST(nodes, 0, index - 1);
+    printLevelOrder(balancedRoot, "Balanced BST");
+
+    printf("Maximum element: %d\n", findMax(balancedRoot));
+    printf("Minimum element: %d\n", findMin(balancedRoot));
+
+    free(arr);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week12> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week12> ./a
+15
+4 3 5 2 -1 -1 6 1 -1 -1 -1 -1 -1 -1 7
+Initial BST: 4 3 5 2 6 1 7
+Balanced BST: 4 2 6 1 3 5 7
+Maximum element: 7
+Minimum element: 1
+"Given a binary search tree, design an algorithm and write a program to find which level number of tree has maximum number of nodes. Also print maximum number of nodes present at this level."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct BSTNode {
+    int data;
+    struct BSTNode *left;
+    struct BSTNode *right;
+} BSTNode;
+
+BSTNode* createNode(int data) {
+    BSTNode *newNode = (BSTNode *)malloc(sizeof(BSTNode));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+BSTNode* insert(BSTNode *root, int data) {
+    if (root == NULL) return createNode(data);
+    if (data < root->data) root->left = insert(root->left, data);
+    else if (data > root->data) root->right = insert(root->right, data);
+    return root;
+}
+
+void printLevelOrder(BSTNode *root) {
+    if (root == NULL) return;
+    BSTNode *queue[1000];
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+
+    printf("BST:");
+    while (front < rear) {
+        BSTNode *curr = queue[front++];
+        printf(" %d", curr->data);
+        if (curr->left != NULL) queue[rear++] = curr->left;
+        if (curr->right != NULL) queue[rear++] = curr->right;
+    }
+    printf("\n");
+}
+
+void findLevelWithMaxNodes(BSTNode *root) {
+    if (root == NULL) return;
+
+    BSTNode *queue[1000];
+    int front = 0, rear = 0;
+    queue[rear++] = root;
+
+    int level = 1;
+    int maxLevel = 1;
+    int maxNodes = 0;
+    int levelCounts[100];
+    int totalLevels = 0;
+
+    while (front < rear) {
+        int count = rear - front;
+        levelCounts[level] = count;
+        totalLevels = level;
+
+        if (count > maxNodes) {
+            maxNodes = count;
+            maxLevel = level;
+        }
+
+        for (int i = 0; i < count; i++) {
+            BSTNode *curr = queue[front++];
+            if (curr->left != NULL) queue[rear++] = curr->left;
+            if (curr->right != NULL) queue[rear++] = curr->right;
+        }
+        level++;
+    }
+
+    int allEqual = 1;
+    for (int i = 1; i <= totalLevels; i++) {
+        if (levelCounts[i] != levelCounts[1]) {
+            allEqual = 0;
+            break;
+        }
+    }
+
+    if (allEqual && totalLevels > 1) {
+        printf("Equal no. Of nodes on all levels\n");
+    } else {
+        printf("Level %d has %d nodes\n", maxLevel, maxNodes);
+    }
+}
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    int *arr = (int *)malloc(n * sizeof(int));
+    BSTNode *root = NULL;
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+        if (arr[i] != -1) {
+            root = insert(root, arr[i]);
+        }
+    }
+
+    printLevelOrder(root);
+    findLevelWithMaxNodes(root);
+
+    free(arr);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week12> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week12> ./a
+15
+5 2 6 1 3 -1 7 -1 -1 -1 4 -1 -1 -1 8
+BST: 5 2 6 1 3 7 4 8
+Level 3 has 3 nodes
+"Write an algorithm and a program to implement priority queue (also known as heap)."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void heapifyMax(int arr[], int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest]) largest = left;
+    if (right < n && arr[right] > arr[largest]) largest = right;
+
+    if (largest != i) {
+        swap(&arr[i], &arr[largest]);
+        heapifyMax(arr, n, largest);
+    }
+}
+
+void buildMaxHeap(int arr[], int n) {
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapifyMax(arr, n, i);
+    }
+}
+
+void insertHeap(int arr[], int *n, int val) {
+    (*n)++;
+    int i = *n - 1;
+    arr[i] = val;
+
+    while (i != 0 && arr[(i - 1) / 2] < arr[i]) {
+        swap(&arr[i], &arr[(i - 1) / 2]);
+        i = (i - 1) / 2;
+    }
+}
+
+int deleteMax(int arr[], int *n) {
+    if (*n <= 0) return -1;
+    int root = arr[0];
+    arr[0] = arr[*n - 1];
+    (*n)--;
+    heapifyMax(arr, *n, 0);
+    return root;
+}
+
+void printHeap(int arr[], int n, const char *title) {
+    printf("%s:", title);
+    for (int i = 0; i < n; i++) {
+        printf(" %d", arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    int arr[100];
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    buildMaxHeap(arr, n);
+    printHeap(arr, n, "Initial Priority Queue");
+    printf("Max Priority: %d\n", arr[0]);
+
+    int choice, val;
+    while (1) {
+        if (scanf("%d", &choice) != 1) break;
+        if (choice == 1) {
+            scanf("%d", &val);
+            insertHeap(arr, &n, val);
+            printHeap(arr, n, "Updated Priority Queue");
+        } else if (choice == 2) {
+            int del = deleteMax(arr, &n);
+            printf("Priority of element deleted: %d\n", del);
+            printHeap(arr, n, "Updated Priority Queue");
+        } else if (choice == 3) {
+            break;
+        }
+    }
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week13> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week13> ./a
+7
+4 5 1 6 7 3 8
+Press:
+1 to insert node
+2 to delete node
+3 to exit
+1
+9
+3
+Initial Priority Queue: 8 6 7 4 5 1 3
+Max Priority: 8
+Updated Priority Queue: 9 8 7 6 5 1 3 4
+"Given a binary tree, design an algorithm and write a program to check whether this tree is heap or not."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+int isHeap(int arr[], int n) {
+    // A complete binary tree represented in array form is heap if every node is >= its children
+    for (int i = 0; i <= (n - 2) / 2; i++) {
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+
+        if (left < n && arr[i] < arr[left]) return 0;
+        if (right < n && arr[i] < arr[right]) return 0;
+    }
+    return 1;
+}
+
+int main() {
+    int t;
+    if (scanf("%d", &t) != 1) return 0;
+    while (t--) {
+        int n;
+        if (scanf("%d", &n) != 1) break;
+        int *arr = (int *)malloc(n * sizeof(int));
+        for (int i = 0; i < n; i++) {
+            scanf("%d", &arr[i]);
+        }
+        if (isHeap(arr, n)) {
+            printf("Yes\n");
+        } else {
+            printf("No\n");
+        }
+        free(arr);
+    }
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week13> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week13> ./a
+2
+8
+8 4 10 3 6 9 5 7
+No
+10
+7 4 9 2 6 8 10 1 3 5
+Yes
+"Given a complete binary tree, design an algorithm and write a program to find Kth largest element in it. (Hint: Max heap)"
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void heapifyMax(int arr[], int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest]) largest = left;
+    if (right < n && arr[right] > arr[largest]) largest = right;
+
+    if (largest != i) {
+        swap(&arr[i], &arr[largest]);
+        heapifyMax(arr, n, largest);
+    }
+}
+
+int findKthLargest(int arr[], int n, int k) {
+    // Build max heap
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapifyMax(arr, n, i);
+    }
+
+    int kth = -1;
+    for (int i = 0; i < k; i++) {
+        kth = arr[0];
+        arr[0] = arr[n - 1 - i];
+        heapifyMax(arr, n - 1 - i, 0);
+    }
+    return kth;
+}
+
+int main() {
+    int n;
+    if (scanf("%d", &n) != 1) return 0;
+    int *arr = (int *)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+    int k;
+    scanf("%d", &k);
+
+    int ans = findKthLargest(arr, n, k);
+    printf("K = %d, largest element : %d\n", k, ans);
+
+    free(arr);
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week13> gcc question3.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week13> ./a
+8
+4 5 1 6 7 3 8 9
+3
+K = 3, largest element : 7
+"What do you think, which is best way to represent data of your class (Linked list representation or Adjacency list representation)? Represent the above data in both the format and find out which takes less space and by what amount?"
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DEFAULT_STUDENTS 76
+
+typedef struct Node {
+    int roll;
+    struct Node *next;
+} Node;
+
+int main() {
+    int n;
+    printf("Enter number of students in class (default 76): ");
+    if (scanf("%d", &n) != 1 || n <= 0) {
+        n = DEFAULT_STUDENTS;
+    }
+
+    // Adjacency Matrix space calculation
+    // Matrix of size n x n integers
+    size_t matrix_size = (size_t)n * n * sizeof(int);
+
+    // Adjacency List space calculation
+    // Array of n pointers + nodes for total edges E.
+    // Average sparse friendship density assumption ~ 10 friends per student
+    int avg_friends = 10;
+    int total_edges = n * avg_friends;
+    size_t list_size = (size_t)n * sizeof(Node*) + (size_t)total_edges * sizeof(Node);
+
+    printf("\n--- Memory Representation Analysis for %d Students ---\n", n);
+    printf("1. Adjacency Matrix Representation Size: %zu bytes\n", matrix_size);
+    printf("2. Adjacency List Representation Size  : %zu bytes\n", list_size);
+
+    if (list_size < matrix_size) {
+        printf("\nResult: Adjacency List representation is better and takes %zu bytes LESS space.\n", matrix_size - list_size);
+    } else {
+        printf("\nResult: Adjacency Matrix representation is better and takes %zu bytes LESS space.\n", list_size - matrix_size);
+    }
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week14> gcc question1.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week14> ./a
+76
+--- Memory Representation Analysis for 76 Students ---
+1. Adjacency Matrix Representation Size: 23104 bytes
+2. Adjacency List Representation Size  : 6688 bytes
+Result: Adjacency List representation is better and takes 16416 bytes LESS space.
+"Get two roll no as inputs from user and find out whether they are friends or not. If yes find their all mutual friends. Also find out those students who are not friends with both of them."
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE
+INPUT :
+/*
+Name- Yuvraj Singh
+Roll no.- 59
+Section- ML2
+Course-B.tech CSE with specialization in AI and ML
+Branch-B.tech CSE'''
+*/
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_STUDENTS 100
+
+int adjMatrix[MAX_STUDENTS + 1][MAX_STUDENTS + 1];
+
+void analyzeFriendship(int totalStudents, int r1, int r2) {
+    printf("\n--- Friendship Analysis for Roll No %d and Roll No %d ---\n", r1, r2);
+
+    if (adjMatrix[r1][r2]) {
+        printf("Roll No %d and Roll No %d ARE friends.\n", r1, r2);
+    } else {
+        printf("Roll No %d and Roll No %d ARE NOT friends.\n", r1, r2);
+    }
+
+    // Mutual Friends (friends with both r1 and r2)
+    printf("\nMutual Friends: ");
+    int mutualCount = 0;
+    for (int i = 1; i <= totalStudents; i++) {
+        if (i != r1 && i != r2 && adjMatrix[r1][i] && adjMatrix[r2][i]) {
+            printf("%d ", i);
+            mutualCount++;
+        }
+    }
+    if (mutualCount == 0) printf("None");
+    printf("\n");
+
+    // Students who are NOT friends with both of them
+    printf("\nStudents not friends with both Roll No %d and Roll No %d: ", r1, r2);
+    int nonFriendCount = 0;
+    for (int i = 1; i <= totalStudents; i++) {
+        if (i != r1 && i != r2 && !adjMatrix[r1][i] && !adjMatrix[r2][i]) {
+            printf("%d ", i);
+            nonFriendCount++;
+        }
+    }
+    if (nonFriendCount == 0) printf("None");
+    printf("\n");
+}
+
+int main() {
+    int numStudents;
+    printf("Enter number of students (e.g. 10 or 76): ");
+    if (scanf("%d", &numStudents) != 1) return 0;
+
+    printf("Enter adjacency matrix (%d x %d):\n", numStudents, numStudents);
+    for (int i = 1; i <= numStudents; i++) {
+        for (int j = 1; j <= numStudents; j++) {
+            scanf("%d", &adjMatrix[i][j]);
+        }
+    }
+
+    int r1, r2;
+    printf("\nEnter two roll numbers to inspect: ");
+    if (scanf("%d %d", &r1, &r2) == 2) {
+        if (r1 >= 1 && r1 <= numStudents && r2 >= 1 && r2 <= numStudents) {
+            analyzeFriendship(numStudents, r1, r2);
+        } else {
+            printf("Invalid roll numbers.\n");
+        }
+    }
+
+    return 0;
+}
+
+OUTPUT :
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week14> gcc question2.c -o a
+PS E:\Codes\C\C Assignments\Yuvraj_Singh\Week14> ./a
+4
+0 1 0 1
+1 0 1 1
+0 1 0 0
+1 1 0 0
+1 2
+--- Friendship Analysis for Roll No 1 and Roll No 2 ---
+Roll No 1 and Roll No 2 ARE friends.
+Mutual Friends: 4 
+Students not friends with both Roll No 1 and Roll No 2: 3
